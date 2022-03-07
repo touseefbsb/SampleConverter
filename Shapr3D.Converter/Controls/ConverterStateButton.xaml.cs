@@ -7,24 +7,41 @@ namespace Shapr3D.Converter.Controls
     // TODO
     public sealed partial class ConverterStateButton : UserControl
     {
-        public ConverterStateButton()
-        {
-            InitializeComponent();
-        }
-
+        public ConverterStateButton() => InitializeComponent();
         public bool IsConverting
         {
-            get { return (bool)GetValue(IsConvertingProperty); }
-            set { SetValue(IsConvertingProperty, value); }
+            get => (bool)GetValue(IsConvertingProperty);
+            set
+            {
+                SetValue(IsConvertingProperty, value);
+                if (value)
+                {
+                    HideDefaultIcon = true;
+                }
+            }
         }
 
         public static readonly DependencyProperty IsConvertingProperty =
             DependencyProperty.Register(nameof(IsConverting), typeof(bool), typeof(ConverterStateButton), new PropertyMetadata(false));
 
+        public bool HideDefaultIcon
+        {
+            get => (bool)GetValue(HideDefaultIconProperty);
+            set => SetValue(HideDefaultIconProperty, value);
+        }
+        public static readonly DependencyProperty HideDefaultIconProperty =
+            DependencyProperty.Register(nameof(HideDefaultIcon), typeof(bool), typeof(ConverterStateButton), new PropertyMetadata(false));
+
         public bool IsDownloadAvailable
         {
-            get { return (bool)GetValue(IsDownloadAvailableProperty); }
-            set { SetValue(IsDownloadAvailableProperty, value); }
+            get => (bool)GetValue(IsDownloadAvailableProperty);
+            set
+            {
+                SetValue(IsDownloadAvailableProperty, value); if (value)
+                {
+                    HideDefaultIcon = true;
+                }
+            }
         }
 
         public static readonly DependencyProperty IsDownloadAvailableProperty =
@@ -32,18 +49,17 @@ namespace Shapr3D.Converter.Controls
 
         public double Progress
         {
-            get { return (double)GetValue(ProgressProperty); }
-            set { SetValue(ProgressProperty, value); }
+            get => (double)GetValue(ProgressProperty);
+            set => SetValue(ProgressProperty, value);
         }
 
         public static readonly DependencyProperty ProgressProperty =
             DependencyProperty.Register(nameof(Progress), typeof(double), typeof(ConverterStateButton), new PropertyMetadata(0.0));
 
-
         public string Text
         {
-            get { return (string)GetValue(TextProperty); }
-            set { SetValue(TextProperty, value); }
+            get => (string)GetValue(TextProperty);
+            set => SetValue(TextProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for Text.  This enables animation, styling, binding, etc...
@@ -52,8 +68,8 @@ namespace Shapr3D.Converter.Controls
 
         public ICommand Command
         {
-            get { return (ICommand)GetValue(CommandProperty); }
-            set { SetValue(CommandProperty, value); }
+            get => (ICommand)GetValue(CommandProperty);
+            set => SetValue(CommandProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for Command.  This enables animation, styling, binding, etc...
@@ -62,8 +78,8 @@ namespace Shapr3D.Converter.Controls
 
         public object CommandParameter
         {
-            get { return (object)GetValue(CommandParameterProperty); }
-            set { SetValue(CommandParameterProperty, value); }
+            get => GetValue(CommandParameterProperty);
+            set => SetValue(CommandParameterProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for CommandParameter.  This enables animation, styling, binding, etc...

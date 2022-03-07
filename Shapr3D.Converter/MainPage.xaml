@@ -48,8 +48,7 @@
                         <TextBlock
                             Margin="12,0,0,0"
                             VerticalAlignment="Center"
-                            FontSize="18"
-                            Foreground="Black"
+                            Style="{ThemeResource TitleTextBlockStyle}"
                             Text="{x:Bind ViewModel.SelectedFile.Name, Mode=OneWay}"
                             TextTrimming="CharacterEllipsis"
                             TextWrapping="NoWrap" />
