@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Shapr3D.Converter.Helpers;
 using Shapr3D_Converter.Models;
 
 namespace Shapr3D.Converter.Datasource
@@ -25,8 +26,7 @@ namespace Shapr3D.Converter.Datasource
             }
             catch (Exception ex)
             {
-                var a = ex;
-                // Use AppCenter to log exceptions
+                await AppCenterHelper.TrackExceptionAndShowErrorDialogAsync("Getting data failed", ex, "Unable to get data from database. Please contact administrator or try again later.");
             }
         }
 
@@ -36,7 +36,15 @@ namespace Shapr3D.Converter.Datasource
             {
                 using (var db = new Shapr3dDbContext())
                 {
-                    db.ModelEntities.Update(model);
+                    if (data.ContainsKey(model.Id))
+                    {
+                        db.ModelEntities.Update(model);
+                    }
+                    else
+                    {
+                        db.ModelEntities.Add(model);
+                    }
+
                     if (await db.SaveChangesAsync() > 0)
                     {
                         data[model.Id] = model;
@@ -45,8 +53,7 @@ namespace Shapr3D.Converter.Datasource
             }
             catch (Exception ex)
             {
-                var a = ex;
-                // Use AppCenter to log exceptions
+                await AppCenterHelper.TrackExceptionAndShowErrorDialogAsync("Add/Update failed", ex, "Unable to Add/Update data from database. Please contact administrator or try again later.");
             }
         }
 
@@ -70,8 +77,7 @@ namespace Shapr3D.Converter.Datasource
             }
             catch (Exception ex)
             {
-                var a = ex;
-                // Use AppCenter to log exceptions
+                await AppCenterHelper.TrackExceptionAndShowErrorDialogAsync("Delete failed", ex, "Unable to Delete data from database. Please contact administrator or try again later.");
             }
         }
     }

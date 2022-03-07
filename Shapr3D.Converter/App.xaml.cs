@@ -7,6 +7,9 @@ using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 
 namespace Shapr3D.Converter
 {
@@ -17,6 +20,9 @@ namespace Shapr3D.Converter
         {
             InitializeComponent();
             Suspending += OnSuspending;
+            //This key below is NOT meant to be used in production as this is currently hooking up to my personal appcenter account.
+            //I added it just to show the use of appcenter in a uwp app.
+            AppCenter.Start("bb9a6d8b-b144-4590-b264-438a5a6913c2", typeof(Analytics), typeof(Crashes));
         }
 
         protected override void OnLaunched(LaunchActivatedEventArgs e)
