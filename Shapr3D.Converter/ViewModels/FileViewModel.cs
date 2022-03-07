@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using Shapr3D.Converter.Datasource;
 
-namespace Shapr3D.Converter.Models
+namespace Shapr3D.Converter.ViewModels
 {
     public class FileConvertingState : INotifyPropertyChanged
     {

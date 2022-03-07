@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 using Converter;
 using Shapr3D.Converter.Datasource;
 using Shapr3D.Converter.EventMessages;
+using Shapr3D.Converter.Extensions;
 using Shapr3D.Converter.Helpers;
-using Shapr3D.Converter.Models;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 

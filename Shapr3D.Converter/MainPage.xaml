@@ -9,9 +9,9 @@
     xmlns:helpers="using:Shapr3D.Converter.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
-    xmlns:model="using:Shapr3D.Converter.Models"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
+    xmlns:viewmodel="using:Shapr3D.Converter.ViewModels"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
@@ -83,21 +83,21 @@
                         <StackPanel Orientation="Vertical">
                             <controls:ConverterStateButton
                                 Command="{x:Bind ViewModel.ConvertActionCommand, Mode=OneWay}"
-                                CommandParameter="{x:Bind model:ConverterOutputType.Obj}"
+                                CommandParameter="{x:Bind viewmodel:ConverterOutputType.Obj}"
                                 IsConverting="{x:Bind ViewModel.SelectedFile.ObjConvertingState.Converting, Mode=OneWay}"
                                 IsDownloadAvailable="{x:Bind ViewModel.SelectedFile.ObjConvertingState.Converted, Mode=OneWay}"
                                 Progress="{x:Bind ViewModel.SelectedFile.ObjConvertingState.Progress, Mode=OneWay}"
                                 Text="Shapr to .Obj" />
                             <controls:ConverterStateButton
                                 Command="{x:Bind ViewModel.ConvertActionCommand, Mode=OneWay}"
-                                CommandParameter="{x:Bind model:ConverterOutputType.Stl}"
+                                CommandParameter="{x:Bind viewmodel:ConverterOutputType.Stl}"
                                 IsConverting="{x:Bind ViewModel.SelectedFile.StlConvertingState.Converting, Mode=OneWay}"
                                 IsDownloadAvailable="{x:Bind ViewModel.SelectedFile.StlConvertingState.Converted, Mode=OneWay}"
                                 Progress="{x:Bind ViewModel.SelectedFile.StlConvertingState.Progress, Mode=OneWay}"
                                 Text="Shapr to .Stl" />
                             <controls:ConverterStateButton
                                 Command="{x:Bind ViewModel.ConvertActionCommand, Mode=OneWay}"
-                                CommandParameter="{x:Bind model:ConverterOutputType.Step}"
+                                CommandParameter="{x:Bind viewmodel:ConverterOutputType.Step}"
                                 IsConverting="{x:Bind ViewModel.SelectedFile.StepConvertingState.Converting, Mode=OneWay}"
                                 IsDownloadAvailable="{x:Bind ViewModel.SelectedFile.StepConvertingState.Converted, Mode=OneWay}"
                                 Progress="{x:Bind ViewModel.SelectedFile.StepConvertingState.Progress, Mode=OneWay}"
@@ -119,7 +119,7 @@
             SelectionMode="Single"
             StretchContentForSingleRow="False">
             <GridView.ItemTemplate>
-                <DataTemplate x:DataType="model:FileViewModel">
+                <DataTemplate x:DataType="viewmodel:FileViewModel">
                     <controls1:UniformGrid
                         Margin="4"
                         ui:Effects.Shadow="{StaticResource CommonShadow}"

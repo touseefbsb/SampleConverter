@@ -1,5 +1,4 @@
-﻿using Shapr3D.Converter.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,29 +17,12 @@ namespace Shapr3D.Converter.Datasource
         public byte[] StlFileBytes { get; set; }
         public byte[] ObjFileBytes { get; set; }
         public byte[] StepFileBytes { get; set; }
-        public FileViewModel ToFileViewModel()
-        {
-            return new FileViewModel(
-                    Id,
-                    OriginalPath,
-                    ObjConverted,
-                    StepConverted,
-                    StlConverted,
-                    FileSize,
-                    FileBytes,
-                    StlFileBytes,
-                    ObjFileBytes,
-                    StepFileBytes);
-        }
     }
 
     public class DummyStore : IPersistedStore
     {
-        private Dictionary<Guid, ModelEntity> data = new Dictionary<Guid, ModelEntity>();
-        public Task InitAsync()
-        {
-            return Task.CompletedTask;
-        }
+        private readonly Dictionary<Guid, ModelEntity> data = new Dictionary<Guid, ModelEntity>();
+        public Task InitAsync() => Task.CompletedTask;
 
         public Task AddOrUpdateAsync(ModelEntity model)
         {
@@ -48,10 +30,7 @@ namespace Shapr3D.Converter.Datasource
             return Task.CompletedTask;
         }
 
-        public Task<List<ModelEntity>> GetAllAsync()
-        {
-            return Task.FromResult(data.Values.ToList());
-        }
+        public Task<List<ModelEntity>> GetAllAsync() => Task.FromResult(data.Values.ToList());
 
         public Task DeleteAllAsync()
         {

@@ -59,6 +59,7 @@
     <Compile Include="Datasource\IPersistedStore.cs" />
     <Compile Include="Datasource\PersistedStore.cs" />
     <Compile Include="EventMessages\AppOnSuspendingMessage.cs" />
+    <Compile Include="Extensions\ModelEntityExtensions.cs" />
     <Compile Include="Helpers\Converters.cs" />
     <Compile Include="Helpers\EventBus.cs" />
     <Compile Include="Helpers\FileHelper.cs" />
@@ -109,9 +110,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore">
-      <Version>3.1.22</Version>
-    </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite">
       <Version>3.1.22</Version>
     </PackageReference>
