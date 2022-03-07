@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Shapr3D.Converter.Helpers
+﻿namespace Shapr3D.Converter.Helpers
 {
     public class EventBus
     {

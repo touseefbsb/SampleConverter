@@ -1,21 +1,10 @@
 ﻿using Converter;
-using Shapr3D.Converter;
 using Shapr3D.Converter.Datasource;
 using Shapr3D.Converter.EventMessages;
 using Shapr3D.Converter.Helpers;
 using Shapr3D.Converter.Models;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.Storage;
-using Windows.Storage.FileProperties;
 using Windows.Storage.Pickers;
-using Windows.UI.Xaml.Controls;
 
 namespace Shapr3D.Converter.ViewModels
 {

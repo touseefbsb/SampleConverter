@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-
-namespace Shapr3D.Converter.Helpers
+﻿namespace Shapr3D.Converter.Helpers
 {
     // COPIED FROM THE WEB
     public class RelayCommand : ICommand

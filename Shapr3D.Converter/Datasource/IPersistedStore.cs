@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace Shapr3D.Converter.Datasource
+﻿namespace Shapr3D.Converter.Datasource
 {
     public interface IPersistedStore
     {
