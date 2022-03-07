@@ -65,10 +65,11 @@ namespace Shapr3D.Converter.Models
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public FileViewModel(Guid id, string originalPath, bool objConverted, bool stepConverted, bool stlConverted, ulong fileSize)
+        public FileViewModel(Guid id, string originalPath, bool objConverted, bool stepConverted, bool stlConverted, ulong fileSize, byte[] fileBytes)
         {
             Id = id;
             OriginalPath = originalPath;
+            FileBytes = fileBytes;
             ConvertingState.Add(ConverterOutputType.Obj, new FileConvertingState(objConverted));
             ConvertingState.Add(ConverterOutputType.Step, new FileConvertingState(stepConverted));
             ConvertingState.Add(ConverterOutputType.Stl, new FileConvertingState(stlConverted));
@@ -85,6 +86,7 @@ namespace Shapr3D.Converter.Models
 
         public Guid Id { get; }
         public string OriginalPath { get; }
+        public byte[] FileBytes { get; }
         public string Name { get; }
 
         public Dictionary<ConverterOutputType, FileConvertingState> ConvertingState { get; } = new Dictionary<ConverterOutputType, FileConvertingState>();
@@ -135,6 +137,7 @@ namespace Shapr3D.Converter.Models
                 StlConverted = ConvertingState[ConverterOutputType.Stl].Converted,
                 OriginalPath = OriginalPath,
                 FileSize = fileSize,
+                FileBytes = FileBytes
             };
         }
     }

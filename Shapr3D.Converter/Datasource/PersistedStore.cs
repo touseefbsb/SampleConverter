@@ -13,6 +13,7 @@ namespace Shapr3D.Converter.Datasource
         public bool ObjConverted { get; set; }
         public bool StlConverted { get; set; }
         public bool StepConverted { get; set; }
+        public byte[] FileBytes { get; set; }
     }
 
     public class DummyStore : IPersistedStore

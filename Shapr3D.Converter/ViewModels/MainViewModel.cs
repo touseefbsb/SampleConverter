@@ -68,7 +68,7 @@ namespace Shapr3D.Converter.ViewModels
 
             foreach (var model in await ps.GetAllAsync())
             {
-                Files.Add(new FileViewModel(model.Id, model.OriginalPath, model.ObjConverted, model.StepConverted, model.StlConverted, model.FileSize));
+                Files.Add(new FileViewModel(model.Id, model.OriginalPath, model.ObjConverted, model.StepConverted, model.StlConverted, model.FileSize, model.FileBytes));
             }
         }
 
@@ -100,7 +100,8 @@ namespace Shapr3D.Converter.ViewModels
             {
                 var id = Guid.NewGuid();
                 var props = await file.GetBasicPropertiesAsync();
-                var model = new FileViewModel(id, file.Path, false, false, false, props.Size);
+                var fileBytes = await FileHelper.GetBytesAsync(file);
+                var model = new FileViewModel(id, file.Path, false, false, false, props.Size, fileBytes);
                 await ps.AddOrUpdateAsync(model.ToModelEntity());
 
                 Files.Add(model);
