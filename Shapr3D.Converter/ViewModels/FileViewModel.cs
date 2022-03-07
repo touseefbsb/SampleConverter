@@ -1,9 +1,9 @@
-﻿using Shapr3D.Converter.Datasource;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using Shapr3D.Converter.Datasource;
 
 namespace Shapr3D.Converter.Models
 {
@@ -127,13 +127,7 @@ namespace Shapr3D.Converter.Models
         }
 
         private readonly ulong fileSize;
-        public string FileSizeFormatted
-        {
-            get
-            {
-                return string.Format("{0} megabytes", ((double)fileSize / 1024 / 1024).ToString("0.00"));
-            }
-        }
+        public string FileSizeFormatted => string.Format("{0} megabytes", ((double)fileSize / 1024 / 1024).ToString("0.00"));
 
         private void OnConvertingStatePropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -143,22 +137,19 @@ namespace Shapr3D.Converter.Models
             }
         }
 
-        public ModelEntity ToModelEntity()
+        public ModelEntity ToModelEntity() => new ModelEntity()
         {
-            return new ModelEntity()
-            {
-                Id = Id,
-                ObjConverted = ConvertingState[ConverterOutputType.Obj].Converted,
-                StepConverted = ConvertingState[ConverterOutputType.Step].Converted,
-                StlConverted = ConvertingState[ConverterOutputType.Stl].Converted,
-                OriginalPath = OriginalPath,
-                FileSize = fileSize,
-                FileBytes = FileBytes,
-                StlFileBytes = StlFileBytes,
-                ObjFileBytes = ObjFileBytes,
-                StepFileBytes = StepFileBytes,
-            };
-        }
+            Id = Id,
+            ObjConverted = ConvertingState[ConverterOutputType.Obj].Converted,
+            StepConverted = ConvertingState[ConverterOutputType.Step].Converted,
+            StlConverted = ConvertingState[ConverterOutputType.Stl].Converted,
+            OriginalPath = OriginalPath,
+            FileSize = fileSize,
+            FileBytes = FileBytes,
+            StlFileBytes = StlFileBytes,
+            ObjFileBytes = ObjFileBytes,
+            StepFileBytes = StepFileBytes,
+        };
     }
 
     public enum ConverterOutputType
