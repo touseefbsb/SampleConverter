@@ -21,7 +21,6 @@ namespace Shapr3D.Converter.Controls
         public static readonly DependencyProperty IsConvertingProperty =
             DependencyProperty.Register(nameof(IsConverting), typeof(bool), typeof(ConverterStateButton), new PropertyMetadata(false));
 
-
         public bool IsDownloadAvailable
         {
             get { return (bool)GetValue(IsDownloadAvailableProperty); }
