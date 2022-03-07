@@ -162,8 +162,10 @@ namespace Shapr3D.Converter.ViewModels
         private async Task Convert(FileViewModel model, IProgress<int> progress, ConverterOutputType outputType)
         {
             // TODO
-            var converted = ModelConverter.ConvertChunk(new byte[0]);
-            await Task.Delay(2000);
+            await Task.Run(() =>
+            {
+                var converted = ModelConverter.ConvertChunk(model.FileBytes);
+            });
         }
     }
 }
