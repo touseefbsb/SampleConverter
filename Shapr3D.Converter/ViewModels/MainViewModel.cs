@@ -59,7 +59,6 @@ namespace Shapr3D.Converter.ViewModels
             }
         }
 
-
         public async Task InitAsync()
         {
             ps = new DummyStore();

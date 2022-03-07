@@ -19,6 +19,25 @@
         <media:AttachedCardShadow x:Key="CommonShadow" Offset="4" />
         <helpers:NotNullBooleanConverter x:Name="notNullBooleanConverter" />
         <helpers:BooleanToVisibilityConverter x:Name="booleanToVisibilityConverter" />
+
+        <Style x:Key="DefaultFlagStyle" TargetType="controls:Flag">
+            <Setter Property="Padding" Value="4,2,4,4" />
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="FlagColor" Value="{ThemeResource SystemChromeMediumColor}" />
+            <Setter Property="BorderBrush" Value="{ThemeResource SystemBaseMediumLowColor}" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+
+        <Style BasedOn="{StaticResource DefaultFlagStyle}" TargetType="controls:Flag" />
+
+        <Style
+            x:Key="ColorFlagStyle"
+            BasedOn="{StaticResource DefaultFlagStyle}"
+            TargetType="controls:Flag">
+            <Setter Property="Foreground" Value="White" />
+        </Style>
     </Page.Resources>
     <Page.TopAppBar>
         <CommandBar>
@@ -102,19 +121,36 @@
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="model:FileViewModel">
                     <controls1:UniformGrid
+                        Margin="4"
                         ui:Effects.Shadow="{StaticResource CommonShadow}"
                         x:DefaultBindMode="OneWay"
-                        Columns="2">
+                        Columns="3">
                         <TextBlock Text="{x:Bind Name}" />
                         <TextBlock Text="{x:Bind FileSizeFormatted}" />
                         <TextBlock Text="{x:Bind OriginalPath}" />
-                        <muxc:ProgressRing IsActive="{x:Bind IsConverting}" />
+                        <TextBlock Text="{x:Bind OriginalPath}" />
+                        <muxc:ProgressRing Grid.ColumnSpan="2" IsActive="{x:Bind IsConverting}" />
+                        <controls:Flag
+                            Margin="2"
+                            FlagColor="Green"
+                            FlagContent="STL"
+                            Style="{ThemeResource ColorFlagStyle}"
+                            Visibility="{x:Bind StlConvertingState.Converted}" />
+                        <controls:Flag
+                            Margin="2"
+                            FlagColor="Orange"
+                            FlagContent="OBJ"
+                            Style="{ThemeResource ColorFlagStyle}"
+                            Visibility="{x:Bind ObjConvertingState.Converted}" />
+                        <controls:Flag
+                            Margin="2"
+                            FlagColor="Brown"
+                            FlagContent="STEP"
+                            Style="{ThemeResource ColorFlagStyle}"
+                            Visibility="{x:Bind StepConvertingState.Converted}" />
                     </controls1:UniformGrid>
                 </DataTemplate>
             </GridView.ItemTemplate>
-            <!--<GridView.ItemContainerStyle>
-                <Style TargetType="GridViewItem"></Style>
-            </GridView.ItemContainerStyle>-->
         </controls1:AdaptiveGridView>
 
     </SplitView>

@@ -52,6 +52,10 @@
     <Compile Include="Controls\ConverterStateButton.xaml.cs">
       <DependentUpon>ConverterStateButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Flag.xaml.cs">
+      <DependentUpon>Flag.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\ColorToBrushConverter.cs" />
     <Compile Include="Datasource\IPersistedStore.cs" />
     <Compile Include="Datasource\PersistedStore.cs" />
     <Compile Include="EventMessages\AppOnSuspendingMessage.cs" />
@@ -91,6 +95,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\Flag.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -102,10 +110,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore">
-      <Version>3.1.10</Version>
+      <Version>3.1.22</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite">
-      <Version>3.1.10</Version>
+      <Version>3.1.22</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.13</Version>
