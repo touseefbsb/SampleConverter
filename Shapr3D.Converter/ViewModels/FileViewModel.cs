@@ -65,11 +65,24 @@ namespace Shapr3D.Converter.Models
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public FileViewModel(Guid id, string originalPath, bool objConverted, bool stepConverted, bool stlConverted, ulong fileSize, byte[] fileBytes)
+        public FileViewModel(
+            Guid id,
+            string originalPath,
+            bool objConverted,
+            bool stepConverted,
+            bool stlConverted,
+            ulong fileSize,
+            byte[] fileBytes,
+            byte[] stlFileBytes,
+            byte[] objFileBytes,
+            byte[] stepFileBytes)
         {
             Id = id;
             OriginalPath = originalPath;
             FileBytes = fileBytes;
+            StlFileBytes = stlFileBytes;
+            ObjFileBytes = objFileBytes;
+            StepFileBytes = stepFileBytes;
             ConvertingState.Add(ConverterOutputType.Obj, new FileConvertingState(objConverted));
             ConvertingState.Add(ConverterOutputType.Step, new FileConvertingState(stepConverted));
             ConvertingState.Add(ConverterOutputType.Stl, new FileConvertingState(stlConverted));
@@ -87,6 +100,9 @@ namespace Shapr3D.Converter.Models
         public Guid Id { get; }
         public string OriginalPath { get; }
         public byte[] FileBytes { get; }
+        public byte[] StlFileBytes { get; set; }
+        public byte[] ObjFileBytes { get; set; }
+        public byte[] StepFileBytes { get; set; }
         public string Name { get; }
 
         public Dictionary<ConverterOutputType, FileConvertingState> ConvertingState { get; } = new Dictionary<ConverterOutputType, FileConvertingState>();
@@ -137,7 +153,10 @@ namespace Shapr3D.Converter.Models
                 StlConverted = ConvertingState[ConverterOutputType.Stl].Converted,
                 OriginalPath = OriginalPath,
                 FileSize = fileSize,
-                FileBytes = FileBytes
+                FileBytes = FileBytes,
+                StlFileBytes = StlFileBytes,
+                ObjFileBytes = ObjFileBytes,
+                StepFileBytes = StepFileBytes,
             };
         }
     }

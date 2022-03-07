@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shapr3D.Converter.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,6 +15,23 @@ namespace Shapr3D.Converter.Datasource
         public bool StlConverted { get; set; }
         public bool StepConverted { get; set; }
         public byte[] FileBytes { get; set; }
+        public byte[] StlFileBytes { get; set; }
+        public byte[] ObjFileBytes { get; set; }
+        public byte[] StepFileBytes { get; set; }
+        public FileViewModel ToFileViewModel()
+        {
+            return new FileViewModel(
+                    Id,
+                    OriginalPath,
+                    ObjConverted,
+                    StepConverted,
+                    StlConverted,
+                    FileSize,
+                    FileBytes,
+                    StlFileBytes,
+                    ObjFileBytes,
+                    StepFileBytes);
+        }
     }
 
     public class DummyStore : IPersistedStore

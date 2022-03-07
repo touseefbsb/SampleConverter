@@ -68,7 +68,7 @@ namespace Shapr3D.Converter.ViewModels
 
             foreach (var model in await ps.GetAllAsync())
             {
-                Files.Add(new FileViewModel(model.Id, model.OriginalPath, model.ObjConverted, model.StepConverted, model.StlConverted, model.FileSize, model.FileBytes));
+                Files.Add(model.ToFileViewModel());
             }
         }
 
@@ -101,7 +101,7 @@ namespace Shapr3D.Converter.ViewModels
                 var id = Guid.NewGuid();
                 var props = await file.GetBasicPropertiesAsync();
                 var fileBytes = await FileHelper.GetBytesAsync(file);
-                var model = new FileViewModel(id, file.Path, false, false, false, props.Size, fileBytes);
+                var model = new FileViewModel(id, file.Path, false, false, false, props.Size, fileBytes, null, null, null);
                 await ps.AddOrUpdateAsync(model.ToModelEntity());
 
                 Files.Add(model);
@@ -146,6 +146,21 @@ namespace Shapr3D.Converter.ViewModels
 
             StorageFile savedFile = await savePicker.PickSaveFileAsync();
             // TODO
+            if (savedFile != default)
+            {
+                switch (type)
+                {
+                    case ConverterOutputType.Stl:
+                        await FileIO.WriteBytesAsync(savedFile, model.StlFileBytes);
+                        break;
+                    case ConverterOutputType.Obj:
+                        await FileIO.WriteBytesAsync(savedFile, model.ObjFileBytes);
+                        break;
+                    case ConverterOutputType.Step:
+                        await FileIO.WriteBytesAsync(savedFile, model.StepFileBytes);
+                        break;
+                }
+            }
         }
 
         private async void DeleteAll()
@@ -165,6 +180,19 @@ namespace Shapr3D.Converter.ViewModels
             await Task.Run(() =>
             {
                 var converted = ModelConverter.ConvertChunk(model.FileBytes);
+                switch (outputType)
+                {
+                    case ConverterOutputType.Stl:
+                        model.StlFileBytes = converted;
+                        //model.StlConvertingState.Progress = progress.
+                        break;
+                    case ConverterOutputType.Obj:
+                        model.ObjFileBytes = converted;
+                        break;
+                    case ConverterOutputType.Step:
+                        model.StepFileBytes = converted;
+                        break;
+                }
             });
         }
     }
