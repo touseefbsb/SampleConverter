@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using Shapr3D.Converter.Datasource;
+using Shapr3D_Converter.Models;
 
 namespace Shapr3D.Converter.ViewModels
 {

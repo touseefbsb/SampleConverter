@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Shapr3D.Converter.Models
+namespace Shapr3D_Converter.Models
 {
     public class Shapr3dDbContext : DbContext
     {

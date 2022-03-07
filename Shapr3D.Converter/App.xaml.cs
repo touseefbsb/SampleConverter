@@ -1,6 +1,7 @@
-﻿using Shapr3D.Converter.EventMessages;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Shapr3D.Converter.EventMessages;
 using Shapr3D.Converter.Helpers;
-using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
@@ -9,7 +10,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Shapr3D.Converter
 {
-    sealed partial class App : Application
+    public sealed partial class App : Application
     {
         private EventBus eventBus;
         public App()
@@ -20,7 +21,7 @@ namespace Shapr3D.Converter
 
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-            Frame rootFrame = Window.Current.Content as Frame;
+            var rootFrame = Window.Current.Content as Frame;
 
             eventBus = EventBus.GetInstance();
 
@@ -40,12 +41,13 @@ namespace Shapr3D.Converter
                 }
                 Window.Current.Activate();
             }
+            using (var db = new Shapr3D_Converter.Models.Shapr3dDbContext())
+            {
+                db.Database.Migrate();
+            }
         }
 
-        void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
-        {
-            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
-        }
+        private void OnNavigationFailed(object sender, NavigationFailedEventArgs e) => throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
 
         private void OnSuspending(object sender, SuspendingEventArgs e)
         {

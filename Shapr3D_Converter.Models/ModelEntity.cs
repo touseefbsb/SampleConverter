@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Shapr3D.Converter.Models
+namespace Shapr3D_Converter.Models
 {
     public class ModelEntity
     {

@@ -1,5 +1,5 @@
-﻿using Shapr3D.Converter.Datasource;
-using Shapr3D.Converter.ViewModels;
+﻿using Shapr3D.Converter.ViewModels;
+using Shapr3D_Converter.Models;
 
 namespace Shapr3D.Converter.Extensions
 {

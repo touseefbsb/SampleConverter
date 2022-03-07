@@ -2,40 +2,77 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Shapr3D_Converter.Models;
 
 namespace Shapr3D.Converter.Datasource
 {
-    public class ModelEntity
-    {
-        public Guid Id { get; set; }
-        public string OriginalPath { get; set; }
-        public ulong FileSize { get; set; }
-        public bool ObjConverted { get; set; }
-        public bool StlConverted { get; set; }
-        public bool StepConverted { get; set; }
-        public byte[] FileBytes { get; set; }
-        public byte[] StlFileBytes { get; set; }
-        public byte[] ObjFileBytes { get; set; }
-        public byte[] StepFileBytes { get; set; }
-    }
-
     public class DummyStore : IPersistedStore
     {
         private readonly Dictionary<Guid, ModelEntity> data = new Dictionary<Guid, ModelEntity>();
-        public Task InitAsync() => Task.CompletedTask;
-
-        public Task AddOrUpdateAsync(ModelEntity model)
+        public async Task InitAsync()
         {
-            data[model.Id] = model;
-            return Task.CompletedTask;
+            try
+            {
+                using (var db = new Shapr3dDbContext())
+                {
+                    data.Clear();
+                    foreach (var item in await db.ModelEntities.ToListAsync())
+                    {
+                        data.Add(item.Id, item);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                var a = ex;
+                // Use AppCenter to log exceptions
+            }
+        }
+
+        public async Task AddOrUpdateAsync(ModelEntity model)
+        {
+            try
+            {
+                using (var db = new Shapr3dDbContext())
+                {
+                    db.ModelEntities.Update(model);
+                    if (await db.SaveChangesAsync() > 0)
+                    {
+                        data[model.Id] = model;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                var a = ex;
+                // Use AppCenter to log exceptions
+            }
         }
 
         public Task<List<ModelEntity>> GetAllAsync() => Task.FromResult(data.Values.ToList());
 
-        public Task DeleteAllAsync()
+        public async Task DeleteAllAsync()
         {
-            data.Clear();
-            return Task.CompletedTask;
+            try
+            {
+                using (var db = new Shapr3dDbContext())
+                {
+                    if (data.Values.ToList() is IEnumerable<ModelEntity> listToRemove)
+                    {
+                        db.ModelEntities.RemoveRange(listToRemove);
+                        if (await db.SaveChangesAsync() > 0)
+                        {
+                            data.Clear();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                var a = ex;
+                // Use AppCenter to log exceptions
+            }
         }
     }
 }

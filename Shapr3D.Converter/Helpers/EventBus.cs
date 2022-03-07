@@ -11,22 +11,12 @@ namespace Shapr3D.Converter.Helpers
         {
         }
 
-        public static EventBus GetInstance()
-        {
-            return eventBus;
-        }
+        public static EventBus GetInstance() => eventBus;
 
         private readonly List<Action<object>> handlers = new List<Action<object>>();
 
-        public void Subscribe(Action<object> handler)
-        {
-            handlers.Add(handler);
-        }
+        public void Subscribe(Action<object> handler) => handlers.Add(handler);
 
-        public void Publish(object e)
-        {
-            handlers.ForEach(handler => handler(e));
-        }
+        public void Publish(object e) => handlers.ForEach(handler => handler(e));
     }
-
 }

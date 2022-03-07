@@ -110,6 +110,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore">
+      <Version>3.1.22</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite">
       <Version>3.1.22</Version>
     </PackageReference>
@@ -133,6 +136,12 @@
     <Reference Include="Converter">
       <HintPath>Converter\Converter.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Shapr3D_Converter.Models\Shapr3D_Converter.Models.csproj">
+      <Project>{6ae16910-40c6-46f1-9123-96f6a417d5f9}</Project>
+      <Name>Shapr3D_Converter.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
