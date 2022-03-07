@@ -184,7 +184,6 @@ namespace Shapr3D.Converter.ViewModels
                 {
                     case ConverterOutputType.Stl:
                         model.StlFileBytes = converted;
-                        //model.StlConvertingState.Progress = progress.
                         break;
                     case ConverterOutputType.Obj:
                         model.ObjFileBytes = converted;
@@ -193,6 +192,7 @@ namespace Shapr3D.Converter.ViewModels
                         model.StepFileBytes = converted;
                         break;
                 }
+                progress.Report(100);
             });
         }
     }
