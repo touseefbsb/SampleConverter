@@ -1,14 +1,14 @@
-﻿using Converter;
-using Shapr3D.Converter.Datasource;
-using Shapr3D.Converter.EventMessages;
-using Shapr3D.Converter.Helpers;
-using Shapr3D.Converter.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Threading.Tasks;
+using Converter;
+using Shapr3D.Converter.Datasource;
+using Shapr3D.Converter.EventMessages;
+using Shapr3D.Converter.Helpers;
+using Shapr3D.Converter.Models;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 
@@ -30,7 +30,9 @@ namespace Shapr3D.Converter.ViewModels
                 if (message is AppOnSuspendingMessage)
                 {
                     foreach (var files in Files)
+                    {
                         files.CancelConversions();
+                    }
                 }
             });
         }
@@ -46,10 +48,7 @@ namespace Shapr3D.Converter.ViewModels
         private FileViewModel selectedFile;
         public FileViewModel SelectedFile
         {
-            get
-            {
-                return selectedFile;
-            }
+            get => selectedFile;
             set
             {
                 if (selectedFile != value)
@@ -72,30 +71,35 @@ namespace Shapr3D.Converter.ViewModels
             }
         }
 
-        private void CloseDetails()
-        {
-            SelectedFile = null;
-        }
+        private void CloseDetails() => SelectedFile = null;
 
         private async void ConvertAction(ConverterOutputType type)
         {
             var state = selectedFile.ConvertingState[type];
             if (state.Converting)
+            {
                 selectedFile.CancelConversion(type);
+            }
             else if (state.Converted)
+            {
                 Save(SelectedFile, type);
+            }
             else
+            {
                 await ConvertFile(SelectedFile, type);
+            }
         }
 
         public async void Add()
         {
-            var picker = new FileOpenPicker();
-            picker.ViewMode = PickerViewMode.Thumbnail;
-            picker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+            var picker = new FileOpenPicker
+            {
+                ViewMode = PickerViewMode.Thumbnail,
+                SuggestedStartLocation = PickerLocationId.PicturesLibrary
+            };
             picker.FileTypeFilter.Add(".shapr");
 
-            StorageFile file = await picker.PickSingleFileAsync();
+            var file = await picker.PickSingleFileAsync();
             if (file != null)
             {
                 var id = Guid.NewGuid();
@@ -111,10 +115,7 @@ namespace Shapr3D.Converter.ViewModels
         private async Task ConvertFile(FileViewModel model, ConverterOutputType type)
         {
             var state = selectedFile.ConvertingState[type];
-            Progress<int> progress = new Progress<int>((p) =>
-            {
-                state.Progress = p;
-            });
+            var progress = new Progress<int>((p) => state.Progress = p);
 
             state.Converting = true;
 
@@ -140,11 +141,9 @@ namespace Shapr3D.Converter.ViewModels
             var savePicker = new FileSavePicker();
             savePicker.FileTypeChoices.Add
                                   (string.Format("{0} file", type.ToString().ToLower()), new List<string>() { string.Format(".{0}", type.ToString().ToLower()) });
-
-
             savePicker.SuggestedFileName = Path.GetFileNameWithoutExtension(model.OriginalPath);
 
-            StorageFile savedFile = await savePicker.PickSaveFileAsync();
+            var savedFile = await savePicker.PickSaveFileAsync();
             // TODO
             if (savedFile != default)
             {
@@ -166,7 +165,9 @@ namespace Shapr3D.Converter.ViewModels
         private async void DeleteAll()
         {
             foreach (var model in Files)
+            {
                 model.CancelConversions();
+            }
 
             await ps.DeleteAllAsync();
 
@@ -174,8 +175,7 @@ namespace Shapr3D.Converter.ViewModels
             Files.Clear();
         }
 
-        private async Task Convert(FileViewModel model, IProgress<int> progress, ConverterOutputType outputType)
-        {
+        private async Task Convert(FileViewModel model, IProgress<int> progress, ConverterOutputType outputType) =>
             // TODO
             await Task.Run(() =>
             {
@@ -194,6 +194,5 @@ namespace Shapr3D.Converter.ViewModels
                 }
                 progress.Report(100);
             });
-        }
     }
 }
