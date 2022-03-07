@@ -1,4 +1,7 @@
-﻿namespace Shapr3D.Converter.Helpers
+﻿using System;
+using System.Collections.Generic;
+
+namespace Shapr3D.Converter.Helpers
 {
     public class EventBus
     {

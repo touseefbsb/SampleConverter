@@ -1,4 +1,7 @@
-﻿namespace Shapr3D.Converter.Helpers
+﻿using System;
+using System.Windows.Input;
+
+namespace Shapr3D.Converter.Helpers
 {
     // COPIED FROM THE WEB
     public class RelayCommand : ICommand

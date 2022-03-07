@@ -1,4 +1,9 @@
 ﻿using Shapr3D.Converter.Datasource;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
+using System.Linq;
 
 namespace Shapr3D.Converter.Models
 {
