@@ -49,6 +49,9 @@ namespace Shapr3D_Converter.Models.Migrations
                     b.Property<byte[]>("StlFileBytes")
                         .HasColumnType("BLOB");
 
+                    b.Property<byte[]>("ThumbnailBytes")
+                        .HasColumnType("BLOB");
+
                     b.HasKey("Id");
 
                     b.ToTable("ModelEntities");

@@ -16,7 +16,10 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-        <media:AttachedCardShadow x:Key="CommonShadow" Offset="4" />
+        <media:AttachedCardShadow
+            x:Key="CommonShadow"
+            Offset="2"
+            Color="{ThemeResource SystemBaseMediumColor}" />
         <helpers:NotNullBooleanConverter x:Name="notNullBooleanConverter" />
         <helpers:BooleanToVisibilityConverter x:Name="booleanToVisibilityConverter" />
 
@@ -113,42 +116,79 @@
         <controls1:AdaptiveGridView
             Margin="12"
             animations:ItemsReorderAnimation.Duration="00:00:00.4000000"
+            DesiredWidth="280"
             IsItemClickEnabled="True"
+            ItemHeight="300"
             ItemsSource="{x:Bind ViewModel.Files}"
             SelectedItem="{x:Bind ViewModel.SelectedFile, Mode=TwoWay}"
             SelectionMode="Single"
             StretchContentForSingleRow="False">
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="viewmodel:FileViewModel">
-                    <controls1:UniformGrid
+                    <Grid
                         Margin="4"
+                        Padding="2"
                         ui:Effects.Shadow="{StaticResource CommonShadow}"
-                        x:DefaultBindMode="OneWay"
-                        Columns="3">
-                        <TextBlock Text="{x:Bind Name}" />
-                        <TextBlock Text="{x:Bind FileSizeFormatted}" />
-                        <TextBlock Text="{x:Bind OriginalPath}" />
-                        <TextBlock Text="{x:Bind OriginalPath}" />
-                        <muxc:ProgressRing Grid.ColumnSpan="2" IsActive="{x:Bind IsConverting}" />
-                        <controls:Flag
+                        x:DefaultBindMode="OneWay">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Image Source="{x:Bind Thumbnail}" Stretch="UniformToFill" />
+                        <TextBlock
+                            Grid.Row="1"
                             Margin="2"
-                            FlagColor="Green"
-                            FlagContent="STL"
-                            Style="{ThemeResource ColorFlagStyle}"
-                            Visibility="{x:Bind StlConvertingState.Converted}" />
-                        <controls:Flag
+                            Text="{x:Bind Name}" />
+                        <TextBlock
+                            Grid.Row="2"
                             Margin="2"
-                            FlagColor="Orange"
-                            FlagContent="OBJ"
-                            Style="{ThemeResource ColorFlagStyle}"
-                            Visibility="{x:Bind ObjConvertingState.Converted}" />
-                        <controls:Flag
+                            Opacity="0.8"
+                            Text="{x:Bind FileSizeFormatted}" />
+                        <TextBlock
+                            Grid.Row="3"
                             Margin="2"
-                            FlagColor="Brown"
-                            FlagContent="STEP"
-                            Style="{ThemeResource ColorFlagStyle}"
-                            Visibility="{x:Bind StepConvertingState.Converted}" />
-                    </controls1:UniformGrid>
+                            Text="{x:Bind OriginalPath}"
+                            TextTrimming="CharacterEllipsis"
+                            ToolTipService.ToolTip="{x:Bind OriginalPath}" />
+                        <muxc:ProgressBar
+                            Grid.Row="4"
+                            IsIndeterminate="True"
+                            Visibility="{x:Bind IsConverting}" />
+                        <Grid Grid.Row="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <controls:Flag
+                                Margin="2"
+                                HorizontalAlignment="Center"
+                                FlagColor="Green"
+                                FlagContent="STL"
+                                Style="{ThemeResource ColorFlagStyle}"
+                                Visibility="{x:Bind StlConvertingState.Converted}" />
+                            <controls:Flag
+                                Grid.Column="1"
+                                Margin="2"
+                                HorizontalAlignment="Center"
+                                FlagColor="Orange"
+                                FlagContent="OBJ"
+                                Style="{ThemeResource ColorFlagStyle}"
+                                Visibility="{x:Bind ObjConvertingState.Converted}" />
+                            <controls:Flag
+                                Grid.Column="2"
+                                Margin="2"
+                                HorizontalAlignment="Center"
+                                FlagColor="Brown"
+                                FlagContent="STEP"
+                                Style="{ThemeResource ColorFlagStyle}"
+                                Visibility="{x:Bind StepConvertingState.Converted}" />
+                        </Grid>
+                    </Grid>
                 </DataTemplate>
             </GridView.ItemTemplate>
         </controls1:AdaptiveGridView>

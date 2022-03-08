@@ -20,7 +20,8 @@ namespace Shapr3D_Converter.Models.Migrations
                     FileBytes = table.Column<byte[]>(nullable: true),
                     StlFileBytes = table.Column<byte[]>(nullable: true),
                     ObjFileBytes = table.Column<byte[]>(nullable: true),
-                    StepFileBytes = table.Column<byte[]>(nullable: true)
+                    StepFileBytes = table.Column<byte[]>(nullable: true),
+                    ThumbnailBytes = table.Column<byte[]>(nullable: true)
                 },
                 constraints: table =>
                 {

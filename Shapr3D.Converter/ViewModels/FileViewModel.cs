@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using Shapr3D_Converter.Models;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Shapr3D.Converter.ViewModels
 {
@@ -12,7 +13,6 @@ namespace Shapr3D.Converter.ViewModels
         private bool converting;
         private bool converted;
         private int progress;
-
         public FileConvertingState(bool isConverted)
         {
             Converted = isConverted;
@@ -63,6 +63,8 @@ namespace Shapr3D.Converter.ViewModels
 
     public class FileViewModel : INotifyPropertyChanged
     {
+        private BitmapImage _thumbnail;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public FileViewModel(
@@ -75,7 +77,8 @@ namespace Shapr3D.Converter.ViewModels
             byte[] fileBytes,
             byte[] stlFileBytes,
             byte[] objFileBytes,
-            byte[] stepFileBytes)
+            byte[] stepFileBytes,
+            byte[] thumbnailBytes)
         {
             Id = id;
             OriginalPath = originalPath;
@@ -83,6 +86,7 @@ namespace Shapr3D.Converter.ViewModels
             StlFileBytes = stlFileBytes;
             ObjFileBytes = objFileBytes;
             StepFileBytes = stepFileBytes;
+            ThumbnailBytes = thumbnailBytes;
             ConvertingState.Add(ConverterOutputType.Obj, new FileConvertingState(objConverted));
             ConvertingState.Add(ConverterOutputType.Step, new FileConvertingState(stepConverted));
             ConvertingState.Add(ConverterOutputType.Stl, new FileConvertingState(stlConverted));
@@ -103,6 +107,7 @@ namespace Shapr3D.Converter.ViewModels
         public byte[] StlFileBytes { get; set; }
         public byte[] ObjFileBytes { get; set; }
         public byte[] StepFileBytes { get; set; }
+        public byte[] ThumbnailBytes { get; set; }
         public string Name { get; }
 
         public Dictionary<ConverterOutputType, FileConvertingState> ConvertingState { get; } = new Dictionary<ConverterOutputType, FileConvertingState>();
@@ -128,6 +133,18 @@ namespace Shapr3D.Converter.ViewModels
 
         private readonly ulong fileSize;
         public string FileSizeFormatted => string.Format("{0} megabytes", ((double)fileSize / 1024 / 1024).ToString("0.00"));
+        public BitmapImage Thumbnail
+        {
+            get => _thumbnail;
+            set
+            {
+                if (_thumbnail != value)
+                {
+                    _thumbnail = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Thumbnail)));
+                }
+            }
+        }
 
         private void OnConvertingStatePropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -149,6 +166,7 @@ namespace Shapr3D.Converter.ViewModels
             StlFileBytes = StlFileBytes,
             ObjFileBytes = ObjFileBytes,
             StepFileBytes = StepFileBytes,
+            ThumbnailBytes = ThumbnailBytes
         };
     }
 

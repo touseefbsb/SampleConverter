@@ -9,7 +9,7 @@ using Shapr3D_Converter.Models;
 namespace Shapr3D_Converter.Models.Migrations
 {
     [DbContext(typeof(Shapr3dDbContext))]
-    [Migration("20220307222302_DBCreate")]
+    [Migration("20220308001835_DBCreate")]
     partial class DBCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,6 +49,9 @@ namespace Shapr3D_Converter.Models.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<byte[]>("StlFileBytes")
+                        .HasColumnType("BLOB");
+
+                    b.Property<byte[]>("ThumbnailBytes")
                         .HasColumnType("BLOB");
 
                     b.HasKey("Id");
