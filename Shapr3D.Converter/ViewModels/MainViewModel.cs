@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
 using System.Threading.Tasks;
 using Converter;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 using Shapr3D.Converter.Datasource;
 using Shapr3D.Converter.EventMessages;
 using Shapr3D.Converter.Extensions;
@@ -14,50 +15,35 @@ using Windows.Storage.Pickers;
 
 namespace Shapr3D.Converter.ViewModels
 {
-    public class MainViewModel : INotifyPropertyChanged
+    public partial class MainViewModel : ObservableObject
     {
+        #region Fields
         private IPersistedStore ps;
+        #endregion Fields
 
-        public MainViewModel()
-        {
-            AddCommand = new RelayCommand(Add);
-            DeleteAllCommand = new RelayCommand(DeleteAll);
-            ConvertActionCommand = new RelayCommand<ConverterOutputType>(ConvertAction);
-            CloseDetailsCommand = new RelayCommand(CloseDetails);
-
-            EventBus.GetInstance().Subscribe((message) =>
-            {
-                if (message is AppOnSuspendingMessage)
-                {
-                    foreach (var files in Files)
-                    {
-                        files.CancelConversions();
-                    }
-                }
-            });
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public ObservableCollection<FileViewModel> Files { get; } = new ObservableCollection<FileViewModel>();
-        public RelayCommand AddCommand { get; }
-        public RelayCommand DeleteAllCommand { get; }
-        public RelayCommand<ConverterOutputType> ConvertActionCommand { get; }
-        public RelayCommand CloseDetailsCommand { get; }
-
+        #region ObservableFields
+        [ObservableProperty]
         private FileViewModel selectedFile;
-        public FileViewModel SelectedFile
-        {
-            get => selectedFile;
-            set
-            {
-                if (selectedFile != value)
-                {
-                    selectedFile = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedFile)));
-                }
-            }
-        }
+        #endregion ObservableFields
+
+        #region Ctor
+        public MainViewModel() => EventBus.GetInstance().Subscribe((message) =>
+                                {
+                                    if (message is AppOnSuspendingMessage)
+                                    {
+                                        foreach (var files in Files)
+                                        {
+                                            files.CancelConversions();
+                                        }
+                                    }
+                                });
+        #endregion Ctor
+
+        #region Props
+        public ObservableCollection<FileViewModel> Files { get; } = new ObservableCollection<FileViewModel>();
+        #endregion
+
+        #region Methods
 
         public async Task InitAsync()
         {
@@ -72,9 +58,11 @@ namespace Shapr3D.Converter.ViewModels
             }
         }
 
+        [ICommand]
         private void CloseDetails() => SelectedFile = null;
 
-        private async void ConvertAction(ConverterOutputType type)
+        [ICommand]
+        private async Task ConvertAction(ConverterOutputType type)
         {
             var state = selectedFile.ConvertingState[type];
             if (state.Converting)
@@ -91,7 +79,8 @@ namespace Shapr3D.Converter.ViewModels
             }
         }
 
-        public async void Add()
+        [ICommand]
+        public async Task Add()
         {
             var picker = new FileOpenPicker
             {
@@ -164,7 +153,8 @@ namespace Shapr3D.Converter.ViewModels
             }
         }
 
-        private async void DeleteAll()
+        [ICommand]
+        private async Task DeleteAll()
         {
             foreach (var model in Files)
             {
@@ -196,5 +186,6 @@ namespace Shapr3D.Converter.ViewModels
                 }
                 progress.Report(100);
             });
+        #endregion Methods
     }
 }

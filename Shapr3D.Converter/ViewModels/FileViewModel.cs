@@ -3,69 +3,26 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Shapr3D_Converter.Models;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Shapr3D.Converter.ViewModels
 {
-    public class FileConvertingState : INotifyPropertyChanged
+    public partial class FileViewModel : ObservableObject
     {
-        private bool converting;
-        private bool converted;
-        private int progress;
-        public FileConvertingState(bool isConverted)
-        {
-            Converted = isConverted;
-            if (isConverted)
-            {
-                Progress = 100;
-            }
-        }
-        public bool Converting
-        {
-            get => converting;
-            set
-            {
-                if (converting != value)
-                {
-                    converting = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Converting)));
-                }
-            }
-        }
-        public bool Converted
-        {
-            get => converted;
-            set
-            {
-                if (converted != value)
-                {
-                    converted = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Converted)));
-                }
-            }
-        }
-        public int Progress
-        {
-            get => progress;
-            set
-            {
-                if (progress != value)
-                {
-                    progress = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Progress)));
-                }
-            }
-        }
+        #region ReadonlyFields
+        private readonly ulong fileSize;
+        #endregion ReadonlyFields
 
-        public event PropertyChangedEventHandler PropertyChanged;
-    }
+        #region ObservableFields
+        [ObservableProperty]
+        private BitmapImage thumbnail;
+        [ObservableProperty]
+        private bool isConverting;
+        #endregion ObservableFields
 
-    public class FileViewModel : INotifyPropertyChanged
-    {
-        private BitmapImage _thumbnail;
-
-        public event PropertyChangedEventHandler PropertyChanged;
+        #region Ctor
 
         public FileViewModel(
             Guid id,
@@ -90,6 +47,7 @@ namespace Shapr3D.Converter.ViewModels
             ConvertingState.Add(ConverterOutputType.Obj, new FileConvertingState(objConverted));
             ConvertingState.Add(ConverterOutputType.Step, new FileConvertingState(stepConverted));
             ConvertingState.Add(ConverterOutputType.Stl, new FileConvertingState(stlConverted));
+            IsConverting = GetIsConverting();
             foreach (var (type, state) in ConvertingState)
             {
                 state.PropertyChanged += OnConvertingStatePropertyChanged;
@@ -100,7 +58,9 @@ namespace Shapr3D.Converter.ViewModels
 
             this.fileSize = fileSize;
         }
+        #endregion Ctor
 
+        #region Props
         public Guid Id { get; }
         public string OriginalPath { get; }
         public byte[] FileBytes { get; }
@@ -109,15 +69,14 @@ namespace Shapr3D.Converter.ViewModels
         public byte[] StepFileBytes { get; set; }
         public byte[] ThumbnailBytes { get; set; }
         public string Name { get; }
-
         public Dictionary<ConverterOutputType, FileConvertingState> ConvertingState { get; } = new Dictionary<ConverterOutputType, FileConvertingState>();
-
         public FileConvertingState ObjConvertingState => ConvertingState[ConverterOutputType.Obj];
         public FileConvertingState StepConvertingState => ConvertingState[ConverterOutputType.Step];
         public FileConvertingState StlConvertingState => ConvertingState[ConverterOutputType.Stl];
+        public string FileSizeFormatted => string.Format("{0} megabytes", ((double)fileSize / 1024 / 1024).ToString("0.00"));
+        #endregion Props
 
-        public bool IsConverting => ConvertingState.Any(state => state.Value.Converting);
-
+        #region Methods
         public void CancelConversion(ConverterOutputType type)
         {
             // TODO
@@ -131,28 +90,14 @@ namespace Shapr3D.Converter.ViewModels
             }
         }
 
-        private readonly ulong fileSize;
-        public string FileSizeFormatted => string.Format("{0} megabytes", ((double)fileSize / 1024 / 1024).ToString("0.00"));
-        public BitmapImage Thumbnail
-        {
-            get => _thumbnail;
-            set
-            {
-                if (_thumbnail != value)
-                {
-                    _thumbnail = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Thumbnail)));
-                }
-            }
-        }
-
         private void OnConvertingStatePropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(FileConvertingState.Converting))
             {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsConverting)));
+                IsConverting = GetIsConverting();
             }
         }
+        private bool GetIsConverting() => ConvertingState.Any(state => state.Value.Converting);
 
         public ModelEntity ToModelEntity() => new ModelEntity()
         {
@@ -168,12 +113,6 @@ namespace Shapr3D.Converter.ViewModels
             StepFileBytes = StepFileBytes,
             ThumbnailBytes = ThumbnailBytes
         };
-    }
-
-    public enum ConverterOutputType
-    {
-        Stl,
-        Obj,
-        Step
+        #endregion Methods
     }
 }
