@@ -6,12 +6,12 @@
     xmlns:controls="using:Shapr3D.Converter.Controls"
     xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:helpers="using:Shapr3D.Converter.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
     xmlns:viewmodel="using:Shapr3D.Converter.ViewModels"
+    x:DefaultBindMode="OneWay"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
@@ -20,8 +20,6 @@
             x:Key="CommonShadow"
             Offset="2"
             Color="{ThemeResource SystemBaseMediumColor}" />
-        <helpers:NotNullBooleanConverter x:Name="notNullBooleanConverter" />
-        <helpers:BooleanToVisibilityConverter x:Name="booleanToVisibilityConverter" />
 
         <Style x:Key="DefaultFlagStyle" TargetType="controls:Flag">
             <Setter Property="Padding" Value="4,2,4,4" />
@@ -58,7 +56,7 @@
     <SplitView
         x:Name="splitPane"
         DisplayMode="Inline"
-        IsPaneOpen="{x:Bind ViewModel.SelectedFile, Mode=OneWay, Converter={StaticResource notNullBooleanConverter}}"
+        IsPaneOpen="{x:Bind ViewModel.SelectedFile, Converter={StaticResource notNullBooleanConverter}}"
         PaneBackground="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}">
         <SplitView.Pane>
             <ScrollViewer>
@@ -76,39 +74,42 @@
                             Margin="12,0,0,0"
                             VerticalAlignment="Center"
                             Style="{ThemeResource SubtitleTextBlockStyle}"
-                            Text="{x:Bind ViewModel.SelectedFile.Name, Mode=OneWay}"
+                            Text="{x:Bind ViewModel.SelectedFile.Name}"
                             TextTrimming="CharacterEllipsis"
                             TextWrapping="NoWrap" />
                     </Grid>
                     <TextBlock Text="Original file path:" />
-                    <TextBlock Text="{x:Bind ViewModel.SelectedFile.OriginalPath, Mode=OneWay}" TextWrapping="Wrap" />
+                    <TextBlock Text="{x:Bind ViewModel.SelectedFile.OriginalPath}" TextWrapping="Wrap" />
                     <TextBlock Margin="0,12,0,0" Text="Original file size:" />
-                    <TextBlock Text="{x:Bind ViewModel.SelectedFile.FileSizeFormatted, Mode=OneWay}" />
+                    <TextBlock Text="{x:Bind ViewModel.SelectedFile.FileSizeFormatted}" />
                     <StackPanel
                         Margin="0,24,0,0"
                         HorizontalAlignment="Stretch"
                         Orientation="Vertical">
                         <StackPanel Orientation="Vertical">
                             <controls:ConverterStateButton
-                                Command="{x:Bind ViewModel.ConvertActionCommand, Mode=OneWay}"
+                                Command="{x:Bind ViewModel.ConvertActionCommand}"
                                 CommandParameter="{x:Bind viewmodel:ConverterOutputType.Obj}"
-                                IsConverting="{x:Bind ViewModel.SelectedFile.ObjConvertingState.Converting, Mode=OneWay}"
-                                IsDownloadAvailable="{x:Bind ViewModel.SelectedFile.ObjConvertingState.Converted, Mode=OneWay}"
-                                Progress="{x:Bind ViewModel.SelectedFile.ObjConvertingState.Progress, Mode=OneWay}"
+                                ConversionTimeStr="{x:Bind ViewModel.SelectedFile.ObjConversionTime, Converter={StaticResource TimeSpanToStringConverter}}"
+                                IsConverting="{x:Bind ViewModel.SelectedFile.ObjConvertingState.Converting}"
+                                IsDownloadAvailable="{x:Bind ViewModel.SelectedFile.ObjConvertingState.Converted}"
+                                Progress="{x:Bind ViewModel.SelectedFile.ObjConvertingState.Progress}"
                                 Text="Shapr to .Obj" />
                             <controls:ConverterStateButton
-                                Command="{x:Bind ViewModel.ConvertActionCommand, Mode=OneWay}"
+                                Command="{x:Bind ViewModel.ConvertActionCommand}"
                                 CommandParameter="{x:Bind viewmodel:ConverterOutputType.Stl}"
-                                IsConverting="{x:Bind ViewModel.SelectedFile.StlConvertingState.Converting, Mode=OneWay}"
-                                IsDownloadAvailable="{x:Bind ViewModel.SelectedFile.StlConvertingState.Converted, Mode=OneWay}"
-                                Progress="{x:Bind ViewModel.SelectedFile.StlConvertingState.Progress, Mode=OneWay}"
+                                ConversionTimeStr="{x:Bind ViewModel.SelectedFile.StlConversionTime, Converter={StaticResource TimeSpanToStringConverter}}"
+                                IsConverting="{x:Bind ViewModel.SelectedFile.StlConvertingState.Converting}"
+                                IsDownloadAvailable="{x:Bind ViewModel.SelectedFile.StlConvertingState.Converted}"
+                                Progress="{x:Bind ViewModel.SelectedFile.StlConvertingState.Progress}"
                                 Text="Shapr to .Stl" />
                             <controls:ConverterStateButton
-                                Command="{x:Bind ViewModel.ConvertActionCommand, Mode=OneWay}"
+                                Command="{x:Bind ViewModel.ConvertActionCommand}"
                                 CommandParameter="{x:Bind viewmodel:ConverterOutputType.Step}"
-                                IsConverting="{x:Bind ViewModel.SelectedFile.StepConvertingState.Converting, Mode=OneWay}"
-                                IsDownloadAvailable="{x:Bind ViewModel.SelectedFile.StepConvertingState.Converted, Mode=OneWay}"
-                                Progress="{x:Bind ViewModel.SelectedFile.StepConvertingState.Progress, Mode=OneWay}"
+                                ConversionTimeStr="{x:Bind ViewModel.SelectedFile.StepConversionTime, Converter={StaticResource TimeSpanToStringConverter}}"
+                                IsConverting="{x:Bind ViewModel.SelectedFile.StepConvertingState.Converting}"
+                                IsDownloadAvailable="{x:Bind ViewModel.SelectedFile.StepConvertingState.Converted}"
+                                Progress="{x:Bind ViewModel.SelectedFile.StepConvertingState.Progress}"
                                 Text="Shapr to .Step" />
                         </StackPanel>
                     </StackPanel>

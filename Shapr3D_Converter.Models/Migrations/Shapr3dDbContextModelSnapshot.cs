@@ -28,6 +28,9 @@ namespace Shapr3D_Converter.Models.Migrations
                     b.Property<ulong>("FileSize")
                         .HasColumnType("INTEGER");
 
+                    b.Property<TimeSpan?>("ObjConversionTime")
+                        .HasColumnType("TEXT");
+
                     b.Property<bool>("ObjConverted")
                         .HasColumnType("INTEGER");
 
@@ -37,11 +40,17 @@ namespace Shapr3D_Converter.Models.Migrations
                     b.Property<string>("OriginalPath")
                         .HasColumnType("TEXT");
 
+                    b.Property<TimeSpan?>("StepConversionTime")
+                        .HasColumnType("TEXT");
+
                     b.Property<bool>("StepConverted")
                         .HasColumnType("INTEGER");
 
                     b.Property<byte[]>("StepFileBytes")
                         .HasColumnType("BLOB");
+
+                    b.Property<TimeSpan?>("StlConversionTime")
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("StlConverted")
                         .HasColumnType("INTEGER");

@@ -14,10 +14,7 @@ namespace Shapr3D.Converter.Controls
             set
             {
                 SetValue(IsConvertingProperty, value);
-                if (value)
-                {
-                    HideDefaultIcon = true;
-                }
+                UpdateHideDefaultIcon();
             }
         }
 
@@ -37,10 +34,8 @@ namespace Shapr3D.Converter.Controls
             get => (bool)GetValue(IsDownloadAvailableProperty);
             set
             {
-                SetValue(IsDownloadAvailableProperty, value); if (value)
-                {
-                    HideDefaultIcon = true;
-                }
+                SetValue(IsDownloadAvailableProperty, value);
+                UpdateHideDefaultIcon();
             }
         }
 
@@ -61,18 +56,21 @@ namespace Shapr3D.Converter.Controls
             get => (string)GetValue(TextProperty);
             set => SetValue(TextProperty, value);
         }
-
-        // Using a DependencyProperty as the backing store for Text.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TextProperty =
             DependencyProperty.Register(nameof(Text), typeof(string), typeof(ConverterStateButton), new PropertyMetadata(""));
 
+        public string ConversionTimeStr
+        {
+            get => (string)GetValue(ConversionTimeStrProperty);
+            set => SetValue(ConversionTimeStrProperty, value);
+        }
+        public static readonly DependencyProperty ConversionTimeStrProperty =
+            DependencyProperty.Register("ConversionTimeStr", typeof(string), typeof(ConverterStateButton), new PropertyMetadata(null));
         public ICommand Command
         {
             get => (ICommand)GetValue(CommandProperty);
             set => SetValue(CommandProperty, value);
         }
-
-        // Using a DependencyProperty as the backing store for Command.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CommandProperty =
             DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(ConverterStateButton), new PropertyMetadata(null));
 
@@ -81,9 +79,9 @@ namespace Shapr3D.Converter.Controls
             get => GetValue(CommandParameterProperty);
             set => SetValue(CommandParameterProperty, value);
         }
-
-        // Using a DependencyProperty as the backing store for CommandParameter.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CommandParameterProperty =
             DependencyProperty.Register(nameof(CommandParameter), typeof(object), typeof(ConverterStateButton), new PropertyMetadata(0));
+
+        private void UpdateHideDefaultIcon() => HideDefaultIcon = IsConverting || IsDownloadAvailable;
     }
 }

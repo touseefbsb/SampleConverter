@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Shapr3D_Converter.Models;
 using Windows.UI.Xaml.Media.Imaging;
@@ -20,6 +21,12 @@ namespace Shapr3D.Converter.ViewModels
         private BitmapImage thumbnail;
         [ObservableProperty]
         private bool isConverting;
+        [ObservableProperty]
+        private TimeSpan? stlConversionTime;
+        [ObservableProperty]
+        private TimeSpan? objConversionTime;
+        [ObservableProperty]
+        private TimeSpan? stepConversionTime;
         #endregion ObservableFields
 
         #region Ctor
@@ -35,7 +42,10 @@ namespace Shapr3D.Converter.ViewModels
             byte[] stlFileBytes,
             byte[] objFileBytes,
             byte[] stepFileBytes,
-            byte[] thumbnailBytes)
+            byte[] thumbnailBytes,
+            TimeSpan? stlConversionTime,
+            TimeSpan? objConversionTime,
+            TimeSpan? stepConversionTime)
         {
             Id = id;
             OriginalPath = originalPath;
@@ -44,6 +54,9 @@ namespace Shapr3D.Converter.ViewModels
             ObjFileBytes = objFileBytes;
             StepFileBytes = stepFileBytes;
             ThumbnailBytes = thumbnailBytes;
+            StlConversionTime = stlConversionTime;
+            ObjConversionTime = objConversionTime;
+            StepConversionTime = stepConversionTime;
             ConvertingState.Add(ConverterOutputType.Obj, new FileConvertingState(objConverted));
             ConvertingState.Add(ConverterOutputType.Step, new FileConvertingState(stepConverted));
             ConvertingState.Add(ConverterOutputType.Stl, new FileConvertingState(stlConverted));
@@ -68,6 +81,9 @@ namespace Shapr3D.Converter.ViewModels
         public byte[] ObjFileBytes { get; set; }
         public byte[] StepFileBytes { get; set; }
         public byte[] ThumbnailBytes { get; set; }
+        public CancellationTokenSource StlCancellationTokenSource { get; set; }
+        public CancellationTokenSource ObjCancellationTokenSource { get; set; }
+        public CancellationTokenSource StepCancellationTokenSource { get; set; }
         public string Name { get; }
         public Dictionary<ConverterOutputType, FileConvertingState> ConvertingState { get; } = new Dictionary<ConverterOutputType, FileConvertingState>();
         public FileConvertingState ObjConvertingState => ConvertingState[ConverterOutputType.Obj];
@@ -80,6 +96,24 @@ namespace Shapr3D.Converter.ViewModels
         public void CancelConversion(ConverterOutputType type)
         {
             // TODO
+            try
+            {
+                switch (type)
+                {
+                    case ConverterOutputType.Stl:
+                        StlCancellationTokenSource?.Cancel();
+                        break;
+                    case ConverterOutputType.Obj:
+                        ObjCancellationTokenSource?.Cancel();
+                        break;
+                    case ConverterOutputType.Step:
+                        StepCancellationTokenSource?.Cancel();
+                        break;
+                }
+            }
+            catch (ObjectDisposedException)
+            {
+            }
         }
 
         public void CancelConversions()
@@ -87,6 +121,27 @@ namespace Shapr3D.Converter.ViewModels
             foreach (var convertingType in ConvertingState.Keys)
             {
                 CancelConversion(convertingType);
+            }
+        }
+        public void DisposeCancellationTokenSource(ConverterOutputType type)
+        {
+            try
+            {
+                switch (type)
+                {
+                    case ConverterOutputType.Stl:
+                        StlCancellationTokenSource?.Dispose();
+                        break;
+                    case ConverterOutputType.Obj:
+                        ObjCancellationTokenSource?.Dispose();
+                        break;
+                    case ConverterOutputType.Step:
+                        StepCancellationTokenSource?.Dispose();
+                        break;
+                }
+            }
+            catch (ObjectDisposedException)
+            {
             }
         }
 
@@ -111,7 +166,10 @@ namespace Shapr3D.Converter.ViewModels
             StlFileBytes = StlFileBytes,
             ObjFileBytes = ObjFileBytes,
             StepFileBytes = StepFileBytes,
-            ThumbnailBytes = ThumbnailBytes
+            ThumbnailBytes = ThumbnailBytes,
+            StlConversionTime = StlConversionTime,
+            ObjConversionTime = ObjConversionTime,
+            StepConversionTime = StepConversionTime
         };
         #endregion Methods
     }

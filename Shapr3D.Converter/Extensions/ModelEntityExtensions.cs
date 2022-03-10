@@ -16,6 +16,9 @@ namespace Shapr3D.Converter.Extensions
                     modelEntity.StlFileBytes,
                     modelEntity.ObjFileBytes,
                     modelEntity.StepFileBytes,
-                    modelEntity.ThumbnailBytes);
+                    modelEntity.ThumbnailBytes,
+                    modelEntity.StlConversionTime,
+                    modelEntity.ObjConversionTime,
+                    modelEntity.StepConversionTime);
     }
 }

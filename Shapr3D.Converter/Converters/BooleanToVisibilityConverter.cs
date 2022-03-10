@@ -2,17 +2,8 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
-namespace Shapr3D.Converter.Helpers
+namespace Shapr3D.Converter.Converters
 {
-    public class NotNullBooleanConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, string language) =>
-            value != null;
-
-        public object ConvertBack(object value, Type targetType, object parameter, string language) =>
-           throw new NotSupportedException();
-
-    }
     public class BooleanToVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language) =>
@@ -21,6 +12,5 @@ namespace Shapr3D.Converter.Helpers
 
         public object ConvertBack(object value, Type targetType, object parameter, string language) =>
             (Visibility)value == Visibility.Visible ^ (parameter as string ?? string.Empty).Equals("Reverse");
-
     }
 }

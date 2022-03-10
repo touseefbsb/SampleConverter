@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using Converter;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -96,7 +98,7 @@ namespace Shapr3D.Converter.ViewModels
                 var props = await file.GetBasicPropertiesAsync();
                 var fileBytes = await FileHelper.GetBytesAsync(file);
                 var thumbnailBytes = await FileHelper.GetBytesForImageAsync(file);
-                var model = new FileViewModel(id, file.Path, false, false, false, props.Size, fileBytes, null, null, null, thumbnailBytes);
+                var model = new FileViewModel(id, file.Path, false, false, false, props.Size, fileBytes, null, null, null, thumbnailBytes, null, null, null);
                 await ps.AddOrUpdateAsync(model.ToModelEntity());
                 model.Thumbnail = await FileHelper.LoadImageAsync(model.ThumbnailBytes);
                 Files.Add(model);
@@ -117,13 +119,18 @@ namespace Shapr3D.Converter.ViewModels
 
                 await ps.AddOrUpdateAsync(model.ToModelEntity());
             }
-            catch (TaskCanceledException)
+            catch (OperationCanceledException)
             {
                 state.Progress = 0;
+            }
+            catch (Exception ex)
+            {
+                await AppCenterHelper.TrackExceptionAndShowErrorDialogAsync($"{nameof(MainViewModel.ConvertFile)} failed for type : {type}", ex, "Conversion failed");
             }
             finally
             {
                 state.Converting = false;
+                model.DisposeCancellationTokenSource(type);
             }
         }
 
@@ -167,10 +174,32 @@ namespace Shapr3D.Converter.ViewModels
             Files.Clear();
         }
 
-        private async Task Convert(FileViewModel model, IProgress<int> progress, ConverterOutputType outputType) =>
+        private async Task Convert(FileViewModel model, IProgress<int> progress, ConverterOutputType outputType)
+        {
             // TODO
+            CancellationToken cancellationToken;
+            switch (outputType)
+            {
+                case ConverterOutputType.Stl:
+                    model.StlCancellationTokenSource = new();
+                    cancellationToken = model.StlCancellationTokenSource.Token;
+                    break;
+                case ConverterOutputType.Obj:
+                    model.ObjCancellationTokenSource = new();
+                    cancellationToken = model.ObjCancellationTokenSource.Token;
+                    break;
+                case ConverterOutputType.Step:
+                    model.StepCancellationTokenSource = new();
+                    cancellationToken = model.StepCancellationTokenSource.Token;
+                    break;
+            }
             await Task.Run(() =>
             {
+                cancellationToken.ThrowIfCancellationRequested();
+
+                var timer = new Stopwatch();
+                timer.Start();
+
                 var converted = new byte[model.FileBytes.Length];
                 var totalChunks = 10;
                 var chunksSize = System.Convert.ToInt32(model.FileBytes.Length / totalChunks);
@@ -178,6 +207,7 @@ namespace Shapr3D.Converter.ViewModels
                 var i = 0;
                 while (index < model.FileBytes.Length)
                 {
+                    cancellationToken.ThrowIfCancellationRequested();
                     if (model.FileBytes.Length - index < chunksSize)
                     {
                         var remainingLength = model.FileBytes.Length - index;
@@ -199,20 +229,25 @@ namespace Shapr3D.Converter.ViewModels
                         progress.Report(i);
                     }
                 }
+                progress.Report(totalChunks);
+                timer.Stop();
                 switch (outputType)
                 {
                     case ConverterOutputType.Stl:
                         model.StlFileBytes = converted;
+                        model.StlConversionTime = timer.Elapsed;
                         break;
                     case ConverterOutputType.Obj:
                         model.ObjFileBytes = converted;
+                        model.ObjConversionTime = timer.Elapsed;
                         break;
                     case ConverterOutputType.Step:
                         model.StepFileBytes = converted;
+                        model.StepConversionTime = timer.Elapsed;
                         break;
                 }
-                progress.Report(totalChunks);
-            });
+            }, cancellationToken);
+        }
         #endregion Methods
     }
 }

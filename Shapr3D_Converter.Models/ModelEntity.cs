@@ -15,5 +15,8 @@ namespace Shapr3D_Converter.Models
         public byte[] ObjFileBytes { get; set; }
         public byte[] StepFileBytes { get; set; }
         public byte[] ThumbnailBytes { get; set; }
+        public TimeSpan? StlConversionTime { get; set; }
+        public TimeSpan? ObjConversionTime { get; set; }
+        public TimeSpan? StepConversionTime { get; set; }
     }
 }

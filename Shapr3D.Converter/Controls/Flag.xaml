@@ -8,10 +8,6 @@
     d:DesignHeight="300"
     d:DesignWidth="400"
     mc:Ignorable="d">
-
-    <UserControl.Resources>
-        <converters:ColorToBrushConverter x:Key="ColorToBrushConverter" />
-    </UserControl.Resources>
     <ContentPresenter
         Padding="{x:Bind Padding}"
         HorizontalContentAlignment="{x:Bind HorizontalContentAlignment}"

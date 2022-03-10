@@ -41,8 +41,19 @@
                 Grid.Column="1"
                 Margin="8,2,2,2"
                 Rows="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
                 <TextBlock Text="{x:Bind Text}" />
-                <muxc:ProgressBar Maximum="10" Value="{x:Bind Progress}" />
+                <TextBlock
+                    Grid.Column="1"
+                    Opacity="0.8"
+                    Text="{x:Bind ConversionTimeStr}" />
+                <muxc:ProgressBar
+                    Grid.ColumnSpan="2"
+                    Maximum="10"
+                    Value="{x:Bind Progress}" />
             </controls:UniformGrid>
         </Grid>
     </Button>

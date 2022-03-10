@@ -9,8 +9,8 @@ using Shapr3D_Converter.Models;
 namespace Shapr3D_Converter.Models.Migrations
 {
     [DbContext(typeof(Shapr3dDbContext))]
-    [Migration("20220308001835_DBCreate")]
-    partial class DBCreate
+    [Migration("20220310162334_FirstMigration")]
+    partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,6 +30,9 @@ namespace Shapr3D_Converter.Models.Migrations
                     b.Property<ulong>("FileSize")
                         .HasColumnType("INTEGER");
 
+                    b.Property<TimeSpan?>("ObjConversionTime")
+                        .HasColumnType("TEXT");
+
                     b.Property<bool>("ObjConverted")
                         .HasColumnType("INTEGER");
 
@@ -39,11 +42,17 @@ namespace Shapr3D_Converter.Models.Migrations
                     b.Property<string>("OriginalPath")
                         .HasColumnType("TEXT");
 
+                    b.Property<TimeSpan?>("StepConversionTime")
+                        .HasColumnType("TEXT");
+
                     b.Property<bool>("StepConverted")
                         .HasColumnType("INTEGER");
 
                     b.Property<byte[]>("StepFileBytes")
                         .HasColumnType("BLOB");
+
+                    b.Property<TimeSpan?>("StlConversionTime")
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("StlConverted")
                         .HasColumnType("INTEGER");

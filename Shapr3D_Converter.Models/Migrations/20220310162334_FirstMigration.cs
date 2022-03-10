@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Shapr3D_Converter.Models.Migrations
 {
-    public partial class DBCreate : Migration
+    public partial class FirstMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -21,7 +21,10 @@ namespace Shapr3D_Converter.Models.Migrations
                     StlFileBytes = table.Column<byte[]>(nullable: true),
                     ObjFileBytes = table.Column<byte[]>(nullable: true),
                     StepFileBytes = table.Column<byte[]>(nullable: true),
-                    ThumbnailBytes = table.Column<byte[]>(nullable: true)
+                    ThumbnailBytes = table.Column<byte[]>(nullable: true),
+                    StlConversionTime = table.Column<TimeSpan>(nullable: true),
+                    ObjConversionTime = table.Column<TimeSpan>(nullable: true),
+                    StepConversionTime = table.Column<TimeSpan>(nullable: true)
                 },
                 constraints: table =>
                 {
