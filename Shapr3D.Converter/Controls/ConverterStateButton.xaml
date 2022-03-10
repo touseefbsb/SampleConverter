@@ -42,7 +42,7 @@
                 Margin="8,2,2,2"
                 Rows="2">
                 <TextBlock Text="{x:Bind Text}" />
-                <muxc:ProgressBar Value="{x:Bind Progress}" />
+                <muxc:ProgressBar Maximum="10" Value="{x:Bind Progress}" />
             </controls:UniformGrid>
         </Grid>
     </Button>

@@ -63,18 +63,23 @@
         <SplitView.Pane>
             <ScrollViewer>
                 <StackPanel Margin="12" Orientation="Vertical">
-                    <StackPanel Margin="0,0,0,24" Orientation="Horizontal">
+                    <Grid Margin="0,0,0,24">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
                         <Button Command="{x:Bind ViewModel.CloseDetailsCommand}">
                             <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72B;" />
                         </Button>
                         <TextBlock
+                            Grid.Column="1"
                             Margin="12,0,0,0"
                             VerticalAlignment="Center"
-                            Style="{ThemeResource TitleTextBlockStyle}"
+                            Style="{ThemeResource SubtitleTextBlockStyle}"
                             Text="{x:Bind ViewModel.SelectedFile.Name, Mode=OneWay}"
                             TextTrimming="CharacterEllipsis"
                             TextWrapping="NoWrap" />
-                    </StackPanel>
+                    </Grid>
                     <TextBlock Text="Original file path:" />
                     <TextBlock Text="{x:Bind ViewModel.SelectedFile.OriginalPath, Mode=OneWay}" TextWrapping="Wrap" />
                     <TextBlock Margin="0,12,0,0" Text="Original file size:" />

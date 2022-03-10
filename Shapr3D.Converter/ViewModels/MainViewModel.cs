@@ -31,9 +31,9 @@ namespace Shapr3D.Converter.ViewModels
                                 {
                                     if (message is AppOnSuspendingMessage)
                                     {
-                                        foreach (var files in Files)
+                                        foreach (var file in Files)
                                         {
-                                            files.CancelConversions();
+                                            file.CancelConversions();
                                         }
                                     }
                                 });
@@ -171,7 +171,34 @@ namespace Shapr3D.Converter.ViewModels
             // TODO
             await Task.Run(() =>
             {
-                var converted = ModelConverter.ConvertChunk(model.FileBytes);
+                var converted = new byte[model.FileBytes.Length];
+                var totalChunks = 10;
+                var chunksSize = System.Convert.ToInt32(model.FileBytes.Length / totalChunks);
+                var index = 0;
+                var i = 0;
+                while (index < model.FileBytes.Length)
+                {
+                    if (model.FileBytes.Length - index < chunksSize)
+                    {
+                        var remainingLength = model.FileBytes.Length - index;
+                        var tempByteArray = new byte[remainingLength];
+                        Array.Copy(model.FileBytes, index, tempByteArray, 0, remainingLength);
+                        tempByteArray = ModelConverter.ConvertChunk(tempByteArray);
+                        Array.Copy(tempByteArray, 0, converted, index, remainingLength);
+                        index += remainingLength;
+                        progress.Report(totalChunks);
+                    }
+                    else
+                    {
+                        var tempByteArray = new byte[chunksSize];
+                        Array.Copy(model.FileBytes, index, tempByteArray, 0, chunksSize);
+                        tempByteArray = ModelConverter.ConvertChunk(tempByteArray);
+                        Array.Copy(tempByteArray, 0, converted, index, chunksSize);
+                        index += chunksSize;
+                        i++;
+                        progress.Report(i);
+                    }
+                }
                 switch (outputType)
                 {
                     case ConverterOutputType.Stl:
@@ -184,7 +211,7 @@ namespace Shapr3D.Converter.ViewModels
                         model.StepFileBytes = converted;
                         break;
                 }
-                progress.Report(100);
+                progress.Report(totalChunks);
             });
         #endregion Methods
     }
