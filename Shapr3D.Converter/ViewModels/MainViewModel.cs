@@ -8,12 +8,14 @@ using System.Threading.Tasks;
 using Converter;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Uwp;
 using Shapr3D.Converter.Datasource;
 using Shapr3D.Converter.EventMessages;
 using Shapr3D.Converter.Extensions;
 using Shapr3D.Converter.Helpers;
 using Windows.Storage;
 using Windows.Storage.Pickers;
+using Windows.System;
 
 namespace Shapr3D.Converter.ViewModels
 {
@@ -194,12 +196,12 @@ namespace Shapr3D.Converter.ViewModels
                     cancellationToken = model.StepCancellationTokenSource.Token;
                     break;
             }
-            await Task.Run(() =>
+            var dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+            await Task.Run(async () =>
             {
-                cancellationToken.ThrowIfCancellationRequested();
-
                 var timer = new Stopwatch();
                 timer.Start();
+                cancellationToken.ThrowIfCancellationRequested();
 
                 var converted = new byte[model.FileBytes.Length];
                 var totalChunks = 10;
@@ -236,17 +238,29 @@ namespace Shapr3D.Converter.ViewModels
                 {
                     case ConverterOutputType.Stl:
                         model.StlFileBytes = converted;
-                        model.StlConversionTime = timer.Elapsed;
                         break;
                     case ConverterOutputType.Obj:
                         model.ObjFileBytes = converted;
-                        model.ObjConversionTime = timer.Elapsed;
                         break;
                     case ConverterOutputType.Step:
                         model.StepFileBytes = converted;
-                        model.StepConversionTime = timer.Elapsed;
                         break;
                 }
+                await dispatcherQueue.EnqueueAsync(() =>
+                {
+                    switch (outputType)
+                    {
+                        case ConverterOutputType.Stl:
+                            model.StlConversionTime = timer.Elapsed;
+                            break;
+                        case ConverterOutputType.Obj:
+                            model.ObjConversionTime = timer.Elapsed;
+                            break;
+                        case ConverterOutputType.Step:
+                            model.StepConversionTime = timer.Elapsed;
+                            break;
+                    }
+                });
             }, cancellationToken);
         }
         #endregion Methods
