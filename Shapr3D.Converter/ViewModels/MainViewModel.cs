@@ -125,6 +125,7 @@ namespace Shapr3D.Converter.ViewModels
             }
             catch (Exception ex)
             {
+                state.Progress = 0;
                 await AppCenterHelper.TrackExceptionAndShowErrorDialogAsync($"{nameof(MainViewModel.ConvertFile)} failed for type : {type}", ex, "Conversion failed");
             }
             finally
