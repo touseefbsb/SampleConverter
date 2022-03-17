@@ -11,8 +11,10 @@
         Color="{ThemeResource SystemBaseLowColor}" />
     <Style x:Key="DefaultFlagStyle" TargetType="controls:Flag">
         <Setter Property="Padding" Value="4,2,4,4" />
-        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="BorderThickness" Value="0,0,0,4" />
+        <Setter Property="FlagColor" Value="{ThemeResource SystemAccentColorDark1}" />
         <Setter Property="BorderBrush" Value="{ThemeResource SystemBaseMediumLowColor}" />
+        <Setter Property="Foreground" Value="White" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -20,11 +22,4 @@
     </Style>
 
     <Style BasedOn="{StaticResource DefaultFlagStyle}" TargetType="controls:Flag" />
-
-    <Style
-        x:Key="ColorFlagStyle"
-        BasedOn="{StaticResource DefaultFlagStyle}"
-        TargetType="controls:Flag">
-        <Setter Property="Foreground" Value="White" />
-    </Style>
 </ResourceDictionary>
