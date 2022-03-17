@@ -1,0 +1,379 @@
+﻿<ResourceDictionary
+    x:Class="Shapr3D.Converter.Styles.HeaderedContentControlStyles"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <!--#region InfoHeadered-->
+
+    <!--#region Control Templates-->
+    <ControlTemplate x:Key="InfoHeaderedContentControlTemplate" TargetType="controls:HeaderedContentControl">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                x:Name="HeaderBlock"
+                Grid.ColumnSpan="2"
+                Margin="1"
+                MaxLines="1"
+                Style="{ThemeResource BodyFadedTextBlockStyle}"
+                Text="{TemplateBinding Header}" />
+            <TextBlock
+                x:Name="ContentBlock"
+                Grid.Row="1"
+                Grid.ColumnSpan="2"
+                Margin="1"
+                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                FontSize="{TemplateBinding FontSize}"
+                Foreground="{TemplateBinding Foreground}"
+                MaxLines="1"
+                Style="{ThemeResource SubtitleTextBlockStyle}"
+                Text="{TemplateBinding Content}" />
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="OrientationStates">
+                    <VisualState x:Name="Vertical" />
+                    <VisualState x:Name="Horizontal">
+                        <VisualState.Setters>
+                            <Setter Target="HeaderBlock.(Grid.ColumnSpan)" Value="1" />
+                            <Setter Target="ContentBlock.(Grid.ColumnSpan)" Value="1" />
+                            <Setter Target="ContentBlock.(Grid.Column)" Value="1" />
+                            <Setter Target="HeaderBlock.(Grid.Row)" Value="1" />
+                            <Setter Target="ContentBlock.(Margin)" Value="10,0,1,1" />
+                            <Setter Target="HeaderBlock.(Margin)" Value="0,4,0,0" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+        </Grid>
+    </ControlTemplate>
+    <ControlTemplate x:Key="InfoHeaderedSmallContentControlTemplate" TargetType="controls:HeaderedContentControl">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                x:Name="HeaderBlock"
+                Grid.ColumnSpan="2"
+                Margin="1"
+                FontSize="{ThemeResource CaptionFontSize}"
+                MaxLines="1"
+                Style="{ThemeResource BodyFadedTextBlockStyle}"
+                Text="{TemplateBinding Header}" />
+            <TextBlock
+                x:Name="ContentBlock"
+                Grid.Row="1"
+                Grid.ColumnSpan="2"
+                Margin="1"
+                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                FontSize="{TemplateBinding FontSize}"
+                Foreground="{TemplateBinding Foreground}"
+                MaxLines="1"
+                Style="{ThemeResource SubtitleTextBlockStyle}"
+                Text="{TemplateBinding Content}" />
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="OrientationStates">
+                    <VisualState x:Name="Vertical" />
+                    <VisualState x:Name="Horizontal">
+                        <VisualState.Setters>
+                            <Setter Target="HeaderBlock.(Grid.ColumnSpan)" Value="1" />
+                            <Setter Target="ContentBlock.(Grid.ColumnSpan)" Value="1" />
+                            <Setter Target="ContentBlock.(Grid.Column)" Value="1" />
+                            <Setter Target="HeaderBlock.(Grid.Row)" Value="1" />
+                            <Setter Target="ContentBlock.(Margin)" Value="10,0,1,1" />
+                            <Setter Target="HeaderBlock.(Margin)" Value="0,4,0,0" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+        </Grid>
+    </ControlTemplate>
+    <ControlTemplate x:Key="InfoHeaderedLargeContentControlTemplate" TargetType="controls:HeaderedContentControl">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                x:Name="HeaderBlock"
+                Grid.ColumnSpan="2"
+                Margin="1"
+                Padding="0,4,0,0"
+                MaxLines="1"
+                Style="{ThemeResource BodyFadedTextBlockStyle}"
+                Text="{TemplateBinding Header}" />
+            <TextBlock
+                x:Name="ContentBlock"
+                Grid.Row="1"
+                Grid.ColumnSpan="2"
+                Margin="1"
+                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                FontSize="{TemplateBinding FontSize}"
+                Foreground="{TemplateBinding Foreground}"
+                MaxLines="1"
+                Style="{ThemeResource TitleTextBlockStyle}"
+                Text="{TemplateBinding Content}" />
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="OrientationStates">
+                    <VisualState x:Name="Vertical" />
+                    <VisualState x:Name="Horizontal">
+                        <VisualState.Setters>
+                            <Setter Target="HeaderBlock.(Grid.ColumnSpan)" Value="1" />
+                            <Setter Target="ContentBlock.(Grid.ColumnSpan)" Value="1" />
+                            <Setter Target="ContentBlock.(Grid.Column)" Value="1" />
+                            <Setter Target="HeaderBlock.(Grid.Row)" Value="1" />
+                            <Setter Target="ContentBlock.(Margin)" Value="10,0,1,1" />
+                            <Setter Target="HeaderBlock.(Margin)" Value="0,4,0,0" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+        </Grid>
+    </ControlTemplate>
+    <ControlTemplate x:Key="InfoHeaderedSmallToLargeContentControlTemplate" TargetType="controls:HeaderedContentControl">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                x:Name="HeaderBlock"
+                Grid.ColumnSpan="2"
+                Margin="1"
+                MaxLines="1"
+                Style="{ThemeResource CaptionFadedTextBlockStyle}"
+                Text="{TemplateBinding Header}" />
+            <TextBlock
+                x:Name="ContentBlock"
+                Grid.Row="1"
+                Grid.ColumnSpan="2"
+                Margin="1"
+                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                Foreground="{TemplateBinding Foreground}"
+                MaxLines="1"
+                Style="{ThemeResource BodyTextBlockStyle}"
+                Text="{TemplateBinding Content}" />
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="OrientationStates">
+                    <VisualState x:Name="Vertical" />
+                    <VisualState x:Name="Horizontal">
+                        <VisualState.Setters>
+                            <Setter Target="HeaderBlock.(Grid.ColumnSpan)" Value="1" />
+                            <Setter Target="ContentBlock.(Grid.ColumnSpan)" Value="1" />
+                            <Setter Target="ContentBlock.(Grid.Column)" Value="1" />
+                            <Setter Target="HeaderBlock.(Grid.Row)" Value="1" />
+                            <Setter Target="ContentBlock.(Margin)" Value="10,0,1,1" />
+                            <Setter Target="HeaderBlock.(Margin)" Value="0,4,0,0" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+                <VisualStateGroup>
+                    <VisualState>
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="{ThemeResource MinWindowSnapPoint}" />
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <Setter Target="HeaderBlock.Style" Value="{ThemeResource CaptionFadedTextBlockStyle}" />
+                            <Setter Target="ContentBlock.Style" Value="{ThemeResource BodyTextBlockStyle}" />
+                            <Setter Target="HeaderBlock.Padding" Value="0" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState>
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="{ThemeResource MediumWindowSnapPoint}" />
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <Setter Target="HeaderBlock.Style" Value="{ThemeResource BodyFadedTextBlockStyle}" />
+                            <Setter Target="ContentBlock.Style" Value="{ThemeResource TitleTextBlockStyle}" />
+                            <Setter Target="HeaderBlock.Padding" Value="0,4,0,0" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+        </Grid>
+    </ControlTemplate>
+    <ControlTemplate x:Key="InfoHeaderedSmallToMediumContentControlTemplate" TargetType="controls:HeaderedContentControl">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                x:Name="HeaderBlock"
+                Grid.ColumnSpan="2"
+                Margin="1"
+                MaxLines="1"
+                Style="{ThemeResource CaptionFadedTextBlockStyle}"
+                Text="{TemplateBinding Header}" />
+            <Border
+                x:Name="ContentBorder"
+                Grid.Row="1"
+                Grid.ColumnSpan="2"
+                Margin="1"
+                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}">
+                <TextBlock
+                    x:Name="ContentBlock"
+                    Margin="1"
+                    Foreground="{TemplateBinding Foreground}"
+                    MaxLines="1"
+                    Style="{ThemeResource BodyTextBlockStyle}"
+                    Text="{TemplateBinding Content}" />
+            </Border>
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="OrientationStates">
+                    <VisualState x:Name="Vertical" />
+                    <VisualState x:Name="Horizontal">
+                        <VisualState.Setters>
+                            <Setter Target="HeaderBlock.(Grid.ColumnSpan)" Value="1" />
+                            <Setter Target="ContentBorder.(Grid.ColumnSpan)" Value="1" />
+                            <Setter Target="ContentBorder.(Grid.Column)" Value="1" />
+                            <Setter Target="HeaderBlock.(Grid.Row)" Value="1" />
+                            <Setter Target="ContentBorder.(Margin)" Value="10,0,1,1" />
+                            <Setter Target="HeaderBlock.(Margin)" Value="0,4,0,0" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+                <VisualStateGroup>
+                    <VisualState>
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="{ThemeResource MinWindowSnapPoint}" />
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <Setter Target="HeaderBlock.Style" Value="{ThemeResource CaptionFadedTextBlockStyle}" />
+                            <Setter Target="ContentBlock.Style" Value="{ThemeResource BodyTextBlockStyle}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState>
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="{ThemeResource MediumWindowSnapPoint}" />
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <Setter Target="HeaderBlock.Style" Value="{ThemeResource BodyFadedTextBlockStyle}" />
+                            <Setter Target="ContentBlock.Style" Value="{ThemeResource SubtitleTextBlockStyle}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+        </Grid>
+    </ControlTemplate>
+    <ControlTemplate x:Key="InfoHeaderedContentControlCustomContentTemplate" TargetType="controls:HeaderedContentControl">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                x:Name="HeaderBlock"
+                Grid.ColumnSpan="2"
+                Margin="1"
+                Style="{ThemeResource BodyFadedTextBlockStyle}"
+                Text="{TemplateBinding Header}" />
+            <ContentPresenter
+                x:Name="ContentBlock"
+                Grid.Row="1"
+                Grid.ColumnSpan="2"
+                Margin="1"
+                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                Content="{TemplateBinding Content}"
+                FontSize="{TemplateBinding FontSize}"
+                Foreground="{TemplateBinding Foreground}" />
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="OrientationStates">
+                    <VisualState x:Name="Vertical" />
+                    <VisualState x:Name="Horizontal">
+                        <VisualState.Setters>
+                            <Setter Target="HeaderBlock.(Grid.ColumnSpan)" Value="1" />
+                            <Setter Target="ContentBlock.(Grid.ColumnSpan)" Value="1" />
+                            <Setter Target="ContentBlock.(Grid.Column)" Value="1" />
+                            <Setter Target="HeaderBlock.(Grid.Row)" Value="1" />
+                            <Setter Target="ContentBlock.(Margin)" Value="10,1,1,1" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+        </Grid>
+    </ControlTemplate>
+    <!--#endregion-->
+
+
+    <Style x:Key="InfoHeaderedContentControlStyle" TargetType="controls:HeaderedContentControl">
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Top" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="FontSize" Value="{ThemeResource SubTitleFontSize}" />
+        <Setter Property="Template" Value="{StaticResource InfoHeaderedContentControlTemplate}" />
+    </Style>
+
+    <Style x:Key="InfoHeaderedSmallContentControlStyle" TargetType="controls:HeaderedContentControl">
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Top" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="FontSize" Value="{ThemeResource BodyFontSize}" />
+        <Setter Property="Template" Value="{StaticResource InfoHeaderedSmallContentControlTemplate}" />
+    </Style>
+    <Style x:Key="InfoHeaderedLargeContentControlStyle" TargetType="controls:HeaderedContentControl">
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Top" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="FontSize" Value="{ThemeResource TitleFontSize}" />
+        <Setter Property="Template" Value="{StaticResource InfoHeaderedLargeContentControlTemplate}" />
+    </Style>
+    <Style x:Key="InfoHeaderedSmallToLargeContentControlStyle" TargetType="controls:HeaderedContentControl">
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Top" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Template" Value="{StaticResource InfoHeaderedSmallToLargeContentControlTemplate}" />
+    </Style>
+    <Style x:Key="InfoHeaderedSmallToMediumContentControlStyle" TargetType="controls:HeaderedContentControl">
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Top" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Template" Value="{StaticResource InfoHeaderedSmallToMediumContentControlTemplate}" />
+    </Style>
+
+    <Style x:Key="InfoHeaderedContentControlCustomContentStyle" TargetType="controls:HeaderedContentControl">
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Top" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="FontSize" Value="{ThemeResource SubTitleFontSize}" />
+        <Setter Property="Template" Value="{StaticResource InfoHeaderedContentControlCustomContentTemplate}" />
+    </Style>
+
+    <!--#endregion-->
+</ResourceDictionary>

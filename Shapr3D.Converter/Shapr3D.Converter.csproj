@@ -55,8 +55,14 @@
     <Compile Include="Controls\ConverterStateButton.xaml.cs">
       <DependentUpon>ConverterStateButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\DataTemplates\FileTemplate.xaml.cs">
+      <DependentUpon>FileTemplate.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Flag.xaml.cs">
       <DependentUpon>Flag.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\FluentGridView.xaml.cs">
+      <DependentUpon>FluentGridView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\NotNullBooleanConverter.cs" />
@@ -64,14 +70,19 @@
     <Compile Include="Converters\ColorToBrushConverter.cs" />
     <Compile Include="Datasource\IPersistedStore.cs" />
     <Compile Include="Datasource\PersistedStore.cs" />
+    <Compile Include="Enums\CurrentCollectionView.cs" />
     <Compile Include="EventMessages\AppOnSuspendingMessage.cs" />
     <Compile Include="Extensions\ModelEntityExtensions.cs" />
+    <Compile Include="Extensions\SettingsStorageExtensions.cs" />
     <Compile Include="Helpers\AppCenterHelper.cs" />
     <Compile Include="Helpers\EventBus.cs" />
     <Compile Include="Helpers\FileHelper.cs" />
-    <Compile Include="Helpers\RelayCommand.cs" />
+    <Compile Include="Helpers\Json.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Styles\HeaderedContentControlStyles.xaml.cs">
+      <DependentUpon>HeaderedContentControlStyles.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\ConverterOutputType.cs" />
     <Compile Include="ViewModels\FileConvertingState.cs" />
@@ -148,11 +159,39 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\DataTemplates\FileTemplate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Controls\Flag.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\FluentGridView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\BorderStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\GridStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\HeaderedContentControlStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\ImageStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Thickness.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -178,6 +217,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="MahApps.Metro.IconPacks.MaterialDesign">
+      <Version>4.11.0</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Analytics">
       <Version>4.5.0</Version>
     </PackageReference>
@@ -194,6 +236,9 @@
       <Version>6.2.13</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Mvvm">
+      <Version>7.1.2</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Behaviors">
       <Version>7.1.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">

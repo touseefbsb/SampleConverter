@@ -7,16 +7,25 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
     d:DesignHeight="300"
     d:DesignWidth="400"
     x:DefaultBindMode="OneWay"
     mc:Ignorable="d">
-
+    <UserControl.Resources>
+        <media:AttachedCardShadow
+            x:Key="CommonShadow"
+            Offset="2"
+            Color="{ThemeResource SystemBaseMediumColor}" />
+    </UserControl.Resources>
     <Button
-        Margin="0,2,0,2"
+        Margin="0,8,0,8"
         HorizontalAlignment="Stretch"
         HorizontalContentAlignment="Stretch"
+        ui:Effects.Shadow="{StaticResource CommonShadow}"
+        Background="{ThemeResource SystemControlAcrylicElementMediumHighBrush}"
         Command="{x:Bind Command}"
         CommandParameter="{x:Bind CommandParameter}"
         Style="{ThemeResource ButtonRevealStyle}">

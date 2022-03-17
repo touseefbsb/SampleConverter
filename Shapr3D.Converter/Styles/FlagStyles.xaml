@@ -1,8 +1,13 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="using:Shapr3D.Converter.Controls">
-
+    xmlns:controls="using:Shapr3D.Converter.Controls"
+    xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
+    xmlns:ui="using:Microsoft.Toolkit.Uwp.UI">
+    <media:AttachedCardShadow
+        x:Key="FlagShadow"
+        Offset="1"
+        Color="{ThemeResource SystemBaseLowColor}" />
     <Style x:Key="DefaultFlagStyle" TargetType="controls:Flag">
         <Setter Property="Padding" Value="4,2,4,4" />
         <Setter Property="BorderThickness" Value="2" />
@@ -11,6 +16,7 @@
         <Setter Property="FontSize" Value="14" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="ui:Effects.Shadow" Value="{StaticResource FlagShadow}" />
     </Style>
 
     <Style BasedOn="{StaticResource DefaultFlagStyle}" TargetType="controls:Flag" />

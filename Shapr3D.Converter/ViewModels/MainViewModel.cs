@@ -9,6 +9,7 @@ using Converter;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
+using Microsoft.Toolkit.Uwp.UI;
 using Shapr3D.Converter.Datasource;
 using Shapr3D.Converter.EventMessages;
 using Shapr3D.Converter.Extensions;
@@ -16,6 +17,7 @@ using Shapr3D.Converter.Helpers;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.System;
+using Windows.UI.Popups;
 
 namespace Shapr3D.Converter.ViewModels
 {
@@ -31,20 +33,26 @@ namespace Shapr3D.Converter.ViewModels
         #endregion ObservableFields
 
         #region Ctor
-        public MainViewModel() => EventBus.GetInstance().Subscribe((message) =>
-                                {
-                                    if (message is AppOnSuspendingMessage)
-                                    {
-                                        foreach (var file in Files)
-                                        {
-                                            file.CancelConversions();
-                                        }
-                                    }
-                                });
+        public MainViewModel()
+        {
+            EventBus.GetInstance().Subscribe((message) =>
+            {
+                if (message is AppOnSuspendingMessage)
+                {
+                    foreach (var file in Files)
+                    {
+                        file.CancelConversions();
+                    }
+                }
+            });
+            FilesCollectionView = new AdvancedCollectionView(Files, true);
+            FilesCollectionView.ObserveFilterProperty(nameof(FileViewModel.Name));
+        }
         #endregion Ctor
 
         #region Props
         public ObservableCollection<FileViewModel> Files { get; } = new ObservableCollection<FileViewModel>();
+        public AdvancedCollectionView FilesCollectionView { get; }
         #endregion
 
         #region Methods
@@ -166,17 +174,30 @@ namespace Shapr3D.Converter.ViewModels
         [ICommand]
         private async Task DeleteAll()
         {
-            foreach (var model in Files)
-            {
-                model.CancelConversions();
-            }
+            var messageDialog = new MessageDialog($"Are you sure you want to delete these {Files.Count} items?") { Title = "Delete confirmation" };
+            messageDialog.Commands.Add(new UICommand("Yes", new UICommandInvokedHandler(DeleteCommandInvokedHandler), 0));
+            messageDialog.Commands.Add(new UICommand("Cancel", new UICommandInvokedHandler(DeleteCommandInvokedHandler), 1));
 
-            await ps.DeleteAllAsync();
+            // Set the command that will be invoked by default
+            messageDialog.DefaultCommandIndex = 0;
+            // Set the command to be invoked when escape is pressed
+            messageDialog.CancelCommandIndex = 1;
 
-            SelectedFile = null;
-            Files.Clear();
+            await messageDialog.ShowAsync();
         }
-
+        private async void DeleteCommandInvokedHandler(IUICommand command)
+        {
+            if ((int)command.Id == 0)
+            {
+                foreach (var model in Files)
+                {
+                    model.CancelConversions();
+                }
+                await ps.DeleteAllAsync();
+                SelectedFile = null;
+                Files.Clear();
+            }
+        }
         private async Task Convert(FileViewModel model, IProgress<int> progress, ConverterOutputType outputType)
         {
             // TODO

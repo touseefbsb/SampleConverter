@@ -89,7 +89,7 @@ namespace Shapr3D.Converter.ViewModels
         public FileConvertingState ObjConvertingState => ConvertingState[ConverterOutputType.Obj];
         public FileConvertingState StepConvertingState => ConvertingState[ConverterOutputType.Step];
         public FileConvertingState StlConvertingState => ConvertingState[ConverterOutputType.Stl];
-        public string FileSizeFormatted => string.Format("{0} megabytes", ((double)fileSize / 1024 / 1024).ToString("0.00"));
+        public string FileSizeFormatted => string.Format("{0} mb", ((double)fileSize / 1024 / 1024).ToString("0.00"));
         #endregion Props
 
         #region Methods

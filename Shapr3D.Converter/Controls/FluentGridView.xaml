@@ -1,0 +1,134 @@
+﻿<UserControl
+    x:Class="Shapr3D.Converter.Controls.FluentGridView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+    xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Behaviors"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:iconPacks1="using:MahApps.Metro.IconPacks"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
+    xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+    <UserControl.Resources>        
+        <media:AttachedCardShadow
+            x:Key="CommonShadow"
+            Offset="2"
+            Color="{ThemeResource SystemBaseMediumColor}" />
+    </UserControl.Resources>
+    <controls:AdaptiveGridView
+        x:Name="MyAdaptiveView"
+        animations:ItemsReorderAnimation.Duration="00:00:00.4000000"
+        DesiredWidth="{x:Bind MyDesiredWidth, Mode=OneWay}"
+        ItemContainerStyle="{ThemeResource GridViewItemRevealBackgroundShowsAboveContentStyle}"
+        ItemHeight="{x:Bind MyItemHeight, Mode=OneWay}"
+        ItemTemplate="{x:Bind MyItemTemplate}"
+        ItemTemplateSelector="{x:Bind MyItemTemplateSelector}"
+        ItemsSource="{x:Bind MyItemsSource, Mode=OneWay}"
+        Loaded="MyAdaptiveView_Loaded"
+        SelectedItem="{x:Bind MySelectedItem, Mode=TwoWay}"
+        SelectionMode="Single"
+        StretchContentForSingleRow="False"
+        TabFocusNavigation="Local">
+        <interactivity:Interaction.Behaviors>
+            <behaviors:StickyHeaderBehavior />
+        </interactivity:Interaction.Behaviors>
+        <controls:AdaptiveGridView.Header>
+            <Grid
+                ui:Effects.Shadow="{StaticResource CommonShadow}"
+                Background="{ThemeResource SystemControlChromeMediumAcrylicElementMediumBrush}"
+                CornerRadius="{StaticResource MainCornerRadius}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Image Source="Assets/StoreLogo.png" />
+                    <TextBlock
+                        Grid.Column="1"
+                        Margin="12,0,0,0"
+                        Style="{StaticResource TitleTextBlockStyle}"
+                        Text="{x:Bind MyTitle, Mode=OneWay}" />
+                    <AutoSuggestBox
+                        x:Name="MySearchBox"
+                        Grid.Column="2"
+                        Width="220"
+                        Margin="8"
+                        TextChanged="MySearchBox_TextChanged"
+                        VerticalAlignment="Center"
+                        PlaceholderText="Search"
+                        QueryIcon="Find" />
+                </Grid>
+                <Grid Grid.Row="1">
+                    <CommandBar
+                        Grid.Column="1"
+                        VerticalContentAlignment="Center"
+                        Background="Transparent"
+                        DefaultLabelPosition="Right">
+                        <CommandBar.Content>
+                            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                                <TextBlock
+                                    Padding="10,4,4,4"
+                                    VerticalAlignment="Center"
+                                    Style="{ThemeResource SubtitleFadedTextBlockStyle}"
+                                    Text="Number of Items : " />
+                                <TextBlock
+                                    Padding="4"
+                                    VerticalAlignment="Center"
+                                    FontWeight="Bold"
+                                    Style="{ThemeResource SubtitleFadedTextBlockStyle}"
+                                    Text="{x:Bind ItemsCount, Mode=OneWay}" />
+                            </StackPanel>
+                        </CommandBar.Content>
+                        <AppBarButton
+                            x:Name="addButton"
+                            Command="{x:Bind AddCommand}"
+                            Foreground="{ThemeResource SystemControlBackgroundBaseMediumHighBrush}"
+                            Label="Add"
+                            ToolTipService.ToolTip="Add New (Ctrl + N)">
+                            <AppBarButton.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="N" Modifiers="Control" />
+                            </AppBarButton.KeyboardAccelerators>
+                            <AppBarButton.Content>
+                                <iconPacks1:PackIconMaterialDesign Kind="Add" />
+                            </AppBarButton.Content>
+                        </AppBarButton>
+                        <AppBarButton
+                            x:Name="deleteAllButton"
+                            Command="{x:Bind DeleteAllCommand}"
+                            Foreground="{ThemeResource SystemControlBackgroundBaseMediumHighBrush}"
+                            Label="Delete All"
+                            ToolTipService.ToolTip="Delete All (Ctrl + D)">
+                            <AppBarButton.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="D" Modifiers="Control" />
+                            </AppBarButton.KeyboardAccelerators>
+                            <AppBarButton.Content>
+                                <iconPacks1:PackIconMaterialDesign Kind="DeleteForever" />
+                            </AppBarButton.Content>
+                        </AppBarButton>
+                        <AppBarButton
+                            x:Name="viewChangeButton"
+                            Command="{x:Bind ToggleViewCommand}"
+                            Foreground="{ThemeResource SystemControlBackgroundBaseMediumHighBrush}"
+                            Label="Toggle View"
+                            Loaded="AppBarButton_Loaded"
+                            ToolTipService.ToolTip="Delete All (Ctrl + T)">
+                            <AppBarButton.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="T" Modifiers="Control" />
+                            </AppBarButton.KeyboardAccelerators>
+                        </AppBarButton>
+                    </CommandBar>
+                </Grid>
+            </Grid>
+        </controls:AdaptiveGridView.Header>
+    </controls:AdaptiveGridView>
+</UserControl>
