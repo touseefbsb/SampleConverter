@@ -7,9 +7,9 @@
         <controls:XamlControlsResources>
             <controls:XamlControlsResources.MergedDictionaries>
                 <ResourceDictionary Source="/Styles/Converters.xaml" />
-                <!--<ResourceDictionary Source="/Styles/FontSizes.xaml" />
-                <ResourceDictionary Source="/Styles/TextBlockStyle.xaml" />
-                <ResourceDictionary Source="/Styles/FlagStyles.xaml" />-->
+                <ResourceDictionary Source="/Styles/FontSizes.xaml" />
+                <ResourceDictionary Source="/Styles/TextBlockStyles.xaml" />
+                <ResourceDictionary Source="/Styles/FlagStyles.xaml" />
             </controls:XamlControlsResources.MergedDictionaries>
         </controls:XamlControlsResources>
     </Application.Resources>

@@ -45,10 +45,10 @@
                     <ColumnDefinition />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="{x:Bind Text}" />
+                <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Text}" />
                 <TextBlock
                     Grid.Column="1"
-                    Opacity="0.8"
+                    Style="{ThemeResource BodyFadedTextBlockStyle}"
                     Text="{x:Bind ConversionTimeStr}" />
                 <muxc:ProgressBar
                     Grid.ColumnSpan="2"

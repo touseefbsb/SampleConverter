@@ -14,31 +14,11 @@
     x:DefaultBindMode="OneWay"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
-
     <Page.Resources>
         <media:AttachedCardShadow
             x:Key="CommonShadow"
             Offset="2"
             Color="{ThemeResource SystemBaseMediumColor}" />
-
-        <Style x:Key="DefaultFlagStyle" TargetType="controls:Flag">
-            <Setter Property="Padding" Value="4,2,4,4" />
-            <Setter Property="BorderThickness" Value="2" />
-            <Setter Property="FlagColor" Value="{ThemeResource SystemChromeMediumColor}" />
-            <Setter Property="BorderBrush" Value="{ThemeResource SystemBaseMediumLowColor}" />
-            <Setter Property="FontSize" Value="14" />
-            <Setter Property="HorizontalContentAlignment" Value="Left" />
-            <Setter Property="VerticalContentAlignment" Value="Center" />
-        </Style>
-
-        <Style BasedOn="{StaticResource DefaultFlagStyle}" TargetType="controls:Flag" />
-
-        <Style
-            x:Key="ColorFlagStyle"
-            BasedOn="{StaticResource DefaultFlagStyle}"
-            TargetType="controls:Flag">
-            <Setter Property="Foreground" Value="White" />
-        </Style>
     </Page.Resources>
     <Page.TopAppBar>
         <CommandBar>

@@ -1,0 +1,24 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Shapr3D.Converter.Controls">
+
+    <Style x:Key="DefaultFlagStyle" TargetType="controls:Flag">
+        <Setter Property="Padding" Value="4,2,4,4" />
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="FlagColor" Value="{ThemeResource SystemChromeMediumColor}" />
+        <Setter Property="BorderBrush" Value="{ThemeResource SystemBaseMediumLowColor}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+
+    <Style BasedOn="{StaticResource DefaultFlagStyle}" TargetType="controls:Flag" />
+
+    <Style
+        x:Key="ColorFlagStyle"
+        BasedOn="{StaticResource DefaultFlagStyle}"
+        TargetType="controls:Flag">
+        <Setter Property="Foreground" Value="White" />
+    </Style>
+</ResourceDictionary>
