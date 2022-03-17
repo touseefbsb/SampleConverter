@@ -14,7 +14,7 @@
     d:DesignHeight="300"
     d:DesignWidth="400"
     mc:Ignorable="d">
-    <UserControl.Resources>        
+    <UserControl.Resources>
         <media:AttachedCardShadow
             x:Key="CommonShadow"
             Offset="2"
@@ -31,6 +31,7 @@
         ItemsSource="{x:Bind MyItemsSource, Mode=OneWay}"
         Loaded="MyAdaptiveView_Loaded"
         SelectedItem="{x:Bind MySelectedItem, Mode=TwoWay}"
+        SelectionChanged="MyAdaptiveView_SelectionChanged"
         SelectionMode="Single"
         StretchContentForSingleRow="False"
         TabFocusNavigation="Local">
@@ -38,95 +39,98 @@
             <behaviors:StickyHeaderBehavior />
         </interactivity:Interaction.Behaviors>
         <controls:AdaptiveGridView.Header>
-            <Grid
-                ui:Effects.Shadow="{StaticResource CommonShadow}"
-                Background="{ThemeResource SystemControlChromeMediumAcrylicElementMediumBrush}"
-                CornerRadius="{StaticResource MainCornerRadius}">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <Image Source="Assets/StoreLogo.png" />
-                    <TextBlock
-                        Grid.Column="1"
-                        Margin="12,0,0,0"
-                        Style="{StaticResource TitleTextBlockStyle}"
-                        Text="{x:Bind MyTitle, Mode=OneWay}" />
-                    <AutoSuggestBox
-                        x:Name="MySearchBox"
-                        Grid.Column="2"
-                        Width="220"
-                        Margin="8"
-                        TextChanged="MySearchBox_TextChanged"
-                        VerticalAlignment="Center"
-                        PlaceholderText="Search"
-                        QueryIcon="Find" />
-                </Grid>
-                <Grid Grid.Row="1">
-                    <CommandBar
-                        Grid.Column="1"
-                        VerticalContentAlignment="Center"
-                        Background="Transparent"
-                        DefaultLabelPosition="Right">
-                        <CommandBar.Content>
-                            <StackPanel Grid.Row="1" Orientation="Horizontal">
-                                <TextBlock
-                                    Padding="10,4,4,4"
-                                    VerticalAlignment="Center"
-                                    Style="{ThemeResource SubtitleFadedTextBlockStyle}"
-                                    Text="Number of Items : " />
-                                <TextBlock
-                                    Padding="4"
-                                    VerticalAlignment="Center"
-                                    FontWeight="Bold"
-                                    Style="{ThemeResource SubtitleFadedTextBlockStyle}"
-                                    Text="{x:Bind ItemsCount, Mode=OneWay}" />
-                            </StackPanel>
-                        </CommandBar.Content>
-                        <AppBarButton
-                            x:Name="addButton"
-                            Command="{x:Bind AddCommand}"
-                            Foreground="{ThemeResource SystemControlBackgroundBaseMediumHighBrush}"
-                            Label="Add"
-                            ToolTipService.ToolTip="Add New (Ctrl + N)">
-                            <AppBarButton.KeyboardAccelerators>
-                                <KeyboardAccelerator Key="N" Modifiers="Control" />
-                            </AppBarButton.KeyboardAccelerators>
-                            <AppBarButton.Content>
-                                <iconPacks1:PackIconMaterialDesign Kind="Add" />
-                            </AppBarButton.Content>
-                        </AppBarButton>
-                        <AppBarButton
-                            x:Name="deleteAllButton"
-                            Command="{x:Bind DeleteAllCommand}"
-                            Foreground="{ThemeResource SystemControlBackgroundBaseMediumHighBrush}"
-                            Label="Delete All"
-                            ToolTipService.ToolTip="Delete All (Ctrl + D)">
-                            <AppBarButton.KeyboardAccelerators>
-                                <KeyboardAccelerator Key="D" Modifiers="Control" />
-                            </AppBarButton.KeyboardAccelerators>
-                            <AppBarButton.Content>
-                                <iconPacks1:PackIconMaterialDesign Kind="DeleteForever" />
-                            </AppBarButton.Content>
-                        </AppBarButton>
-                        <AppBarButton
-                            x:Name="viewChangeButton"
-                            Command="{x:Bind ToggleViewCommand}"
-                            Foreground="{ThemeResource SystemControlBackgroundBaseMediumHighBrush}"
-                            Label="Toggle View"
-                            Loaded="AppBarButton_Loaded"
-                            ToolTipService.ToolTip="Delete All (Ctrl + T)">
-                            <AppBarButton.KeyboardAccelerators>
-                                <KeyboardAccelerator Key="T" Modifiers="Control" />
-                            </AppBarButton.KeyboardAccelerators>
-                        </AppBarButton>
-                    </CommandBar>
+            <Grid>
+                <Border
+                    Background="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}"
+                    CornerRadius="{StaticResource MainCornerRadius}"
+                    Opacity="0.3" />
+                <Grid ui:Effects.Shadow="{StaticResource CommonShadow}" CornerRadius="{StaticResource MainCornerRadius}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Image Source="Assets/StoreLogo.png" />
+                        <TextBlock
+                            Grid.Column="1"
+                            Margin="12,0,0,0"
+                            Style="{StaticResource TitleTextBlockStyle}"
+                            Text="{x:Bind MyTitle, Mode=OneWay}" />
+                        <AutoSuggestBox
+                            x:Name="MySearchBox"
+                            Grid.Column="2"
+                            Width="274"
+                            Margin="8"
+                            VerticalAlignment="Center"
+                            PlaceholderText="Search"
+                            QueryIcon="Find"
+                            TextChanged="MySearchBox_TextChanged" />
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <CommandBar
+                            Grid.Column="1"
+                            VerticalContentAlignment="Center"
+                            Background="Transparent"
+                            DefaultLabelPosition="Right">
+                            <CommandBar.Content>
+                                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                                    <TextBlock
+                                        Padding="10,4,4,4"
+                                        VerticalAlignment="Center"
+                                        Style="{ThemeResource SubtitleFadedTextBlockStyle}"
+                                        Text="Number of Items : " />
+                                    <TextBlock
+                                        Padding="4"
+                                        VerticalAlignment="Center"
+                                        FontWeight="Bold"
+                                        Style="{ThemeResource SubtitleFadedTextBlockStyle}"
+                                        Text="{x:Bind ItemsCount, Mode=OneWay}" />
+                                </StackPanel>
+                            </CommandBar.Content>
+                            <AppBarButton
+                                x:Name="addButton"
+                                Command="{x:Bind AddCommand}"
+                                Foreground="{ThemeResource SystemControlBackgroundBaseMediumHighBrush}"
+                                Label="Add"
+                                ToolTipService.ToolTip="Add New (Ctrl + N)">
+                                <AppBarButton.KeyboardAccelerators>
+                                    <KeyboardAccelerator Key="N" Modifiers="Control" />
+                                </AppBarButton.KeyboardAccelerators>
+                                <AppBarButton.Content>
+                                    <iconPacks1:PackIconMaterialDesign Kind="Add" />
+                                </AppBarButton.Content>
+                            </AppBarButton>
+                            <AppBarButton
+                                x:Name="deleteAllButton"
+                                Command="{x:Bind DeleteAllCommand}"
+                                Foreground="{ThemeResource SystemControlBackgroundBaseMediumHighBrush}"
+                                Label="Delete All"
+                                ToolTipService.ToolTip="Delete All (Ctrl + D)">
+                                <AppBarButton.KeyboardAccelerators>
+                                    <KeyboardAccelerator Key="D" Modifiers="Control" />
+                                </AppBarButton.KeyboardAccelerators>
+                                <AppBarButton.Content>
+                                    <iconPacks1:PackIconMaterialDesign Kind="DeleteForever" />
+                                </AppBarButton.Content>
+                            </AppBarButton>
+                            <AppBarButton
+                                x:Name="viewChangeButton"
+                                Command="{x:Bind ToggleViewCommand}"
+                                Foreground="{ThemeResource SystemControlBackgroundBaseMediumHighBrush}"
+                                Label="Toggle View"
+                                Loaded="AppBarButton_Loaded"
+                                ToolTipService.ToolTip="Delete All (Ctrl + T)">
+                                <AppBarButton.KeyboardAccelerators>
+                                    <KeyboardAccelerator Key="T" Modifiers="Control" />
+                                </AppBarButton.KeyboardAccelerators>
+                            </AppBarButton>
+                        </CommandBar>
+                    </Grid>
                 </Grid>
             </Grid>
         </controls:AdaptiveGridView.Header>

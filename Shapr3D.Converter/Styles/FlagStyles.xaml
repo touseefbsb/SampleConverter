@@ -6,12 +6,12 @@
     xmlns:ui="using:Microsoft.Toolkit.Uwp.UI">
     <media:AttachedCardShadow
         x:Key="FlagShadow"
+        Opacity="0.6"
         Offset="1"
         Color="{ThemeResource SystemBaseLowColor}" />
     <Style x:Key="DefaultFlagStyle" TargetType="controls:Flag">
         <Setter Property="Padding" Value="4,2,4,4" />
         <Setter Property="BorderThickness" Value="2" />
-        <Setter Property="FlagColor" Value="{ThemeResource SystemChromeMediumColor}" />
         <Setter Property="BorderBrush" Value="{ThemeResource SystemBaseMediumLowColor}" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />

@@ -1,9 +1,11 @@
-﻿using Shapr3D.Converter.Enums;
+﻿using System;
+using Shapr3D.Converter.Enums;
 using Shapr3D.Converter.Extensions;
 using Shapr3D.Converter.ViewModels;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Animation;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -50,12 +52,28 @@ namespace Shapr3D.Converter.Controls.DataTemplates
         private void TurnToGridView()
         {
             GridVieww.Visibility = Visibility.Visible;
+            ConnectedAnimationService.GetForCurrentView().DefaultDuration = TimeSpan.FromMilliseconds(500);
+            ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("ListToGridAnimation", ListVieww);
+            var animation = ConnectedAnimationService.GetForCurrentView().GetAnimation("ListToGridAnimation");
+            if (animation != null)
+            {
+                animation.Configuration = new GravityConnectedAnimationConfiguration();
+                animation.TryStart(GridVieww);
+            }
             ListVieww.Visibility = Visibility.Collapsed;
         }
         private void TurnToListView()
         {
-            GridVieww.Visibility = Visibility.Collapsed;
             ListVieww.Visibility = Visibility.Visible;
+            ConnectedAnimationService.GetForCurrentView().DefaultDuration = TimeSpan.FromMilliseconds(500);
+            ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("GridToListAnimation", GridVieww);
+            var animation = ConnectedAnimationService.GetForCurrentView().GetAnimation("GridToListAnimation");
+            if (animation != null)
+            {
+                animation.Configuration = new GravityConnectedAnimationConfiguration();
+                animation.TryStart(ListVieww);
+            }
+            GridVieww.Visibility = Visibility.Collapsed;
         }
     }
 }

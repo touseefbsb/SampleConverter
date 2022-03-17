@@ -18,6 +18,7 @@ namespace Shapr3D.Converter.Controls
         private readonly PackIconMaterialDesign _gridIcon = new PackIconMaterialDesign { Kind = PackIconMaterialDesignKind.ViewComfy };
 
         public event EventHandler<AutoSuggestBoxTextChangedEventArgs> SearchTextChanged;
+        public event EventHandler<SelectionChangedEventArgs> SelectionChanged;
         public FluentGridView() => InitializeComponent();
 
         #region DPs
@@ -142,5 +143,7 @@ namespace Shapr3D.Converter.Controls
         private void MyAdaptiveView_Loaded(object sender, RoutedEventArgs e) => MyAdaptiveView.ItemsPanelRoot.Margin = new Thickness(12, 12, 12, 0);
 
         private void MySearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args) => SearchTextChanged?.Invoke(sender, args);
+
+        private void MyAdaptiveView_SelectionChanged(object sender, SelectionChangedEventArgs e) => SelectionChanged?.Invoke(sender, e);
     }
 }

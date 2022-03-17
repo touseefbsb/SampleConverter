@@ -1,6 +1,9 @@
-﻿using Shapr3D.Converter.ViewModels;
+﻿using System;
+using Microsoft.Toolkit.Uwp.UI.Controls;
+using Shapr3D.Converter.ViewModels;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace Shapr3D.Converter
 {
@@ -27,6 +30,28 @@ namespace Shapr3D.Converter
                 ViewModel.FilesCollectionView.Filter = string.IsNullOrWhiteSpace(box.Text)
                     ? (_ => true)
                     : (x => ((FileViewModel)x).Name.Contains(box.Text, System.StringComparison.OrdinalIgnoreCase));
+            }
+        }
+
+        private void FluentGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(sender is AdaptiveGridView gridview)
+            {
+                if (gridview.SelectedItem != null)
+                {
+                    var container = gridview.ContainerFromItem(e.AddedItems[0]);
+                    if (container is UIElement gridViewItem)
+                    {
+                        ConnectedAnimationService.GetForCurrentView().DefaultDuration = TimeSpan.FromMilliseconds(500);
+                        ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("GridViewForwardAnimation", gridViewItem);
+                        var animation = ConnectedAnimationService.GetForCurrentView().GetAnimation("GridViewForwardAnimation");
+                        if (animation != null)
+                        {
+                            animation.Configuration = new GravityConnectedAnimationConfiguration();
+                            animation.TryStart(TitleTextBlock);
+                        }
+                    }
+                }
             }
         }
     }

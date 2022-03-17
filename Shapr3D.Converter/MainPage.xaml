@@ -43,6 +43,7 @@
                             <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72B;" />
                         </Button>
                         <TextBlock
+                            x:Name="TitleTextBlock"
                             Grid.Column="1"
                             Margin="12,0,0,0"
                             VerticalAlignment="Center"
@@ -103,7 +104,7 @@
 
         <!--  TODO  -->
         <controls:FluentGridView
-            Margin="8"
+            Margin="8,4,8,8"
             AddCommand="{x:Bind ViewModel.AddCommand}"
             DeleteAllCommand="{x:Bind ViewModel.DeleteAllCommand}"
             ItemsCount="{x:Bind ViewModel.FilesCollectionView.Count}"
@@ -112,7 +113,8 @@
             MyItemsSource="{x:Bind ViewModel.FilesCollectionView}"
             MySelectedItem="{x:Bind ViewModel.SelectedFile, Mode=TwoWay}"
             MyTitle="Shapr3d Files"
-            SearchTextChanged="FluentGridView_SearchTextChanged">
+            SearchTextChanged="FluentGridView_SearchTextChanged"
+            SelectionChanged="FluentGridView_SelectionChanged">
             <controls:FluentGridView.MyItemTemplate>
                 <DataTemplate x:DataType="viewmodel:FileViewModel">
                     <datatemplates:FileTemplate />
