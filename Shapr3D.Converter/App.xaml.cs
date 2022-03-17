@@ -27,11 +27,9 @@ namespace Shapr3D.Converter
 
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-            var rootFrame = Window.Current.Content as Frame;
-
             eventBus = EventBus.GetInstance();
 
-            if (rootFrame == null)
+            if (Window.Current.Content is not Frame rootFrame)
             {
                 rootFrame = new Frame();
                 rootFrame.NavigationFailed += OnNavigationFailed;
